@@ -1,6 +1,6 @@
 # swift-html-prism
 
-[![CI](https://github.com/coenttb/swift-html-prism/workflows/CI/badge.svg)](https://github.com/coenttb/swift-html-prism/actions/workflows/ci.yml)
+[![CI](https://github.com/swift-foundations/swift-html-prism/workflows/CI/badge.svg)](https://github.com/swift-foundations/swift-html-prism/actions/workflows/ci.yml)
 ![Development Status](https://img.shields.io/badge/status-active--development-blue.svg)
 
 A type-safe Swift DSL for PrismJS syntax highlighting, built on swift-html.
@@ -25,7 +25,7 @@ Add swift-html-prism to your Package.swift:
 
 ```swift
 dependencies: [
-    .package(url: "https://github.com/coenttb/swift-html-prism", from: "0.1.0")
+    .package(url: "https://github.com/swift-foundations/swift-html-prism", from: "0.1.0")
 ]
 ```
 
@@ -321,7 +321,7 @@ let config = Prism.Configuration(
 ### Dependencies
 
 - [pointfree-html](https://github.com/coenttb/pointfree-html): A fork of pointfreeco/swift-html with extended functionality.
-- [swift-html](https://github.com/coenttb/swift-html): The Swift library for domain-accurate and type-safe HTML & CSS.
+- [swift-html](https://github.com/swift-foundations/swift-html): The Swift library for domain-accurate and type-safe HTML & CSS.
 
 ### Third-Party Dependencies
 
