@@ -1,6 +1,6 @@
 # .github/metadata.yaml
 # Triaged by AI-assisted bulk pass (2026-04-29).
-description: "A type-safe Swift DSL for PrismJS syntax highlighting, built on swift-html."
+description: "PrismJS syntax highlighting for swift-html."
 topics:
   - foundations
   - html
