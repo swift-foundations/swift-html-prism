@@ -5,8 +5,6 @@
 //  Created by Coen ten Thije Boonkkamp on 01/09/2025.
 //
 
-import Foundation
-
 extension Prism {
     public struct Plugin: Sendable {
         public let name: String
@@ -35,13 +33,13 @@ extension Prism {
         }
 
         public func scriptURL(cdnVersion: String) -> String {
-            "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacingOccurrences(of: " ", with: "-"))/\(fileName)"
+            "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacing(" ", with: "-"))/\(fileName)"
         }
 
         public func cssURL(cdnVersion: String) -> String? {
             guard let cssFileName = cssFileName else { return nil }
             return
-                "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacingOccurrences(of: " ", with: "-"))/\(cssFileName)"
+                "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacing(" ", with: "-"))/\(cssFileName)"
         }
     }
 }
