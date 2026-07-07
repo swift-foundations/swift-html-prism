@@ -447,28 +447,28 @@ struct Snapshots {
                     /\b(_[A-Z]\w*)\b/,
                     Prism.languages.swift['class-name']
                   ];
-                  
+
                   // Additional Swift keywords
                   Prism.languages.swift.keyword = [
                     /\b(any|macro)\b/,
                     /\b((iOS|macOS|tvOS|watchOS|visionOS)(|ApplicationExtension)|swift)\b/,
                     Prism.languages.swift.keyword
                   ];
-                  
+
                   // TODO comment highlighting
                   Prism.languages.swift.comment.inside = {
                     todo: {
                       pattern: /(TODO:)/
                     }
                   };
-                  
+
                   // Code folding indicator
                   Prism.languages.insertBefore('swift', 'operator', {
                     'code-fold': {
                       pattern: /…/
                     },
                   });
-                  
+
                   // Xcode placeholders
                   Prism.languages.insertBefore('swift', 'string-literal', {
                     'placeholder': {
@@ -559,28 +559,28 @@ struct Snapshots {
                     /\b(_[A-Z]\w*)\b/,
                     Prism.languages.swift['class-name']
                   ];
-                  
+
                   // Additional Swift keywords
                   Prism.languages.swift.keyword = [
                     /\b(any|macro)\b/,
                     /\b((iOS|macOS|tvOS|watchOS|visionOS)(|ApplicationExtension)|swift)\b/,
                     Prism.languages.swift.keyword
                   ];
-                  
+
                   // TODO comment highlighting
                   Prism.languages.swift.comment.inside = {
                     todo: {
                       pattern: /(TODO:)/
                     }
                   };
-                  
+
                   // Code folding indicator
                   Prism.languages.insertBefore('swift', 'operator', {
                     'code-fold': {
                       pattern: /…/
                     },
                   });
-                  
+
                   // Xcode placeholders
                   Prism.languages.insertBefore('swift', 'string-literal', {
                     'placeholder': {
@@ -617,7 +617,7 @@ struct Snapshots {
 
             struct ComplexExample {
                 let value: Int
-                
+
                 func compute() -> Int {
                     return value * 2
                 }
@@ -645,7 +645,7 @@ struct Snapshots {
 
             struct ComplexExample {
                 let value: Int
-                
+
                 func compute() -&gt; Int {
                     return value * 2
                 }

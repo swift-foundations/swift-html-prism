@@ -230,7 +230,7 @@ public enum Prism {
                 background-color: #071c06;
                 color: #6fd574;
               }
-              
+
               .language-diff .token.deleted {
                 background-color: #280c0f;
                 color: #f95258;
@@ -274,28 +274,28 @@ public enum Prism {
                     /\\b(_[A-Z]\\w*)\\b/,
                     Prism.languages.swift['class-name']
                   ];
-                  
+
                   // Additional Swift keywords
                   Prism.languages.swift.keyword = [
                     /\\b(any|macro)\\b/,
                     /\\b((iOS|macOS|tvOS|watchOS|visionOS)(|ApplicationExtension)|swift)\\b/,
                     Prism.languages.swift.keyword
                   ];
-                  
+
                   // TODO comment highlighting
                   Prism.languages.swift.comment.inside = {
                     todo: {
                       pattern: /(TODO:)/
                     }
                   };
-                  
+
                   // Code folding indicator
                   Prism.languages.insertBefore('swift', 'operator', {
                     'code-fold': {
                       pattern: /…/
                     },
                   });
-                  
+
                   // Xcode placeholders
                   Prism.languages.insertBefore('swift', 'string-literal', {
                     'placeholder': {
