@@ -94,6 +94,15 @@ extension Prism.TokenStyle {
 
         return styles.joined(separator: "; ")
     }
+
+    /// The dark-mode-only declarations for this style, or `nil` when this style specifies no
+    /// dark-mode-relevant properties. `color` is the only property backed by `HTMLColor`
+    /// (a light/dark pair); the other properties are mode-independent and already covered by
+    /// ``cssString``.
+    public var darkCSSString: String? {
+        guard let color else { return nil }
+        return "color: \(color.dark.description)"
+    }
 }
 
 extension Prism {
@@ -172,8 +181,18 @@ extension Prism.ThemeBuilder {
             css += "\(tokenType.selector) { \(style.cssString) }\n"
         }
 
-        if !darkModeStyles.isEmpty {
+        // Dark half of any dual-mode (HTMLColor) token style, plus any free-form dark-mode
+        // styles, share the same `prefers-color-scheme: dark` block.
+        let darkTokenRules = sortedTokenStyles.compactMap { tokenType, style in
+            style.darkCSSString.map { "\(tokenType.selector) { \($0) }" }
+        }
+
+        if !darkTokenRules.isEmpty || !darkModeStyles.isEmpty {
             css += "@media (prefers-color-scheme: dark) {\n"
+            css += darkTokenRules.joined(separator: "\n")
+            if !darkTokenRules.isEmpty, !darkModeStyles.isEmpty {
+                css += "\n"
+            }
             css += darkModeStyles
             css += "\n}\n"
         }
