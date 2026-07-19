@@ -436,8 +436,176 @@ extension Prism {
 }
 
 extension Prism.Language {
+    /// The identifier of the CDN component file that actually defines this language's grammar.
+    ///
+    /// A number of `Language` cases are aliases Prism recognizes at runtime (e.g. `.js`,
+    /// `.html`) but does not ship as their own CDN file — only the canonical language (e.g.
+    /// `.javascript`, `.markup`) has a `prism-<id>.min.js` component. Alias cases resolve to
+    /// their canonical language's identifier here so ``cdnComponentPath`` never points at a
+    /// nonexistent file; every other case resolves to its own `rawValue`.
+    ///
+    /// Source of truth: Prism's own `components.json` `alias` field (fetched 2026-07-19).
+    public var componentIdentifier: String {
+        switch self {
+        case .html, .xml, .svg, .mathml, .ssml, .atom, .rss:
+            return Self.markup.rawValue
+        case .js:
+            return Self.javascript.rawValue
+        case .g4:
+            return Self.antlr4.rawValue
+        case .ino:
+            return Self.arduino.rawValue
+        case .armAsm:
+            return Self.armasm.rawValue
+        case .art:
+            return Self.arturo.rawValue
+        case .adoc:
+            return Self.asciidoc.rawValue
+        case .avs:
+            return Self.avisynth.rawValue
+        case .avdl:
+            return Self.avroIdl.rawValue
+        case .gawk:
+            return Self.awk.rawValue
+        case .sh, .shell:
+            return Self.bash.rawValue
+        case .shortcode:
+            return Self.bbcode.rawValue
+        case .rbnf:
+            return Self.bnf.rawValue
+        case .oscript:
+            return Self.bsl.rawValue
+        case .cs, .dotnet:
+            return Self.csharp.rawValue
+        case .cfc:
+            return Self.cfscript.rawValue
+        case .cilkC:
+            return Self.cilkc.rawValue
+        case .cilkCpp, .cilk:
+            return Self.cilkcpp.rawValue
+        case .coffee:
+            return Self.coffeescript.rawValue
+        case .conc:
+            return Self.concurnas.rawValue
+        case .jinja2:
+            return Self.django.rawValue
+        case .dnsZone:
+            return Self.dnsZoneFile.rawValue
+        case .dockerfile:
+            return Self.docker.rawValue
+        case .gv:
+            return Self.dot.rawValue
+        case .eta:
+            return Self.ejs.rawValue
+        case .xlsx, .xls:
+            return Self.excelFormula.rawValue
+        case .po:
+            return Self.gettext.rawValue
+        case .gni:
+            return Self.gn.rawValue
+        case .ld:
+            return Self.linkerScript.rawValue
+        case .goMod:
+            return Self.goModule.rawValue
+        case .hbs, .mustache:
+            return Self.handlebars.rawValue
+        case .hs:
+            return Self.haskell.rawValue
+        case .idr:
+            return Self.idris.rawValue
+        case .gitignore, .hgignore, .npmignore:
+            return Self.ignore.rawValue
+        case .webmanifest:
+            return Self.json.rawValue
+        case .kt, .kts:
+            return Self.kotlin.rawValue
+        case .kum:
+            return Self.kumir.rawValue
+        case .tex, .context:
+            return Self.latex.rawValue
+        case .ly:
+            return Self.lilypond.rawValue
+        case .emacs, .elisp, .emacsLisp:
+            return Self.lisp.rawValue
+        case .md:
+            return Self.markdown.rawValue
+        case .moon:
+            return Self.moonscript.rawValue
+        case .n4jsd:
+            return Self.n4js.rawValue
+        case .nani:
+            return Self.naniscript.rawValue
+        case .objc:
+            return Self.objectivec.rawValue
+        case .qasm:
+            return Self.openqasm.rawValue
+        case .objectpascal:
+            return Self.pascal.rawValue
+        case .px:
+            return Self.pcaxis.rawValue
+        case .pcode:
+            return Self.peoplecode.rawValue
+        case .pq, .mscript:
+            return Self.powerquery.rawValue
+        case .pbfasm:
+            return Self.purebasic.rawValue
+        case .purs:
+            return Self.purescript.rawValue
+        case .py:
+            return Self.python.rawValue
+        case .qs:
+            return Self.qsharp.rawValue
+        case .rkt:
+            return Self.racket.rawValue
+        case .rpy:
+            return Self.renpy.rawValue
+        case .res:
+            return Self.rescript.rawValue
+        case .robot:
+            return Self.robotframework.rawValue
+        case .rb:
+            return Self.ruby.rawValue
+        case .shSession, .shellsession:
+            return Self.shellSession.rawValue
+        case .smlnj:
+            return Self.sml.rawValue
+        case .sol:
+            return Self.solidity.rawValue
+        case .sln:
+            return Self.solutionFile.rawValue
+        case .rq:
+            return Self.sparql.rawValue
+        case .sclang:
+            return Self.supercollider.rawValue
+        case .t4:
+            return Self.t4Cs.rawValue
+        case .trickle, .troy:
+            return Self.tremor.rawValue
+        case .trig:
+            return Self.turtle.rawValue
+        case .ts:
+            return Self.typescript.rawValue
+        case .tsconfig:
+            return Self.typoscript.rawValue
+        case .uscript, .uc:
+            return Self.unrealscript.rawValue
+        case .url:
+            return Self.uri.rawValue
+        case .vb, .vba:
+            return Self.visualBasic.rawValue
+        case .mathematica, .nb, .wl:
+            return Self.wolfram.rawValue
+        case .xeoracube:
+            return Self.xeora.rawValue
+        case .yml:
+            return Self.yaml.rawValue
+        default:
+            return rawValue
+        }
+    }
+
     public var cdnComponentPath: String {
-        "prism-\(rawValue).min.js"
+        "prism-\(componentIdentifier).min.js"
     }
 
     public var className: String {
