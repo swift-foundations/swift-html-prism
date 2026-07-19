@@ -8,7 +8,6 @@
 import Builders
 import Dependencies
 import HTML
-import HTMLTheme
 
 public enum Prism {}
 

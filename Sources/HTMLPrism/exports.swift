@@ -7,7 +7,6 @@
 
 @_exported import Dependencies
 @_exported import HTML
-@_exported import HTMLTheme
 
 // Type aliases for convenience
 public typealias PrismConfiguration = Prism.Configuration

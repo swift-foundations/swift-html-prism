@@ -13,7 +13,6 @@ extension Target.Dependency {
 
 extension Target.Dependency {
     static var html: Self { .product(name: "HTML", package: "swift-html") }
-    static var htmlTheme: Self { .product(name: "HTMLTheme", package: "swift-html") }
     static var dependencies: Self { .product(name: "Dependencies", package: "swift-dependencies") }
     static var pointFreeHtmlTestSupport: Self { .product(name: "PointFreeHTMLTestSupport", package: "pointfree-html") }
 }
@@ -40,7 +39,6 @@ let package = Package(
             name: .htmlPrism,
             dependencies: [
                 .html,
-                .htmlTheme,
                 .dependencies
             ]
         ),
