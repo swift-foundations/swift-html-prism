@@ -11,24 +11,24 @@ import PointFreeHTMLTestSupport
 import Testing
 
 @Suite("Prism Tests")
-struct PrismTests {
+struct `Prism Tests` {
 
     @Test("Language enum has correct CDN paths")
-    func languageCDNPaths() {
+    func `language CDN paths`() {
         #expect(Prism.Language.swift.cdnComponentPath == "prism-swift.min.js")
         #expect(Prism.Language.javascript.cdnComponentPath == "prism-javascript.min.js")
         #expect(Prism.Language.python.cdnComponentPath == "prism-python.min.js")
     }
 
     @Test("Language class names are correct")
-    func languageClassNames() {
+    func `language class names`() {
         #expect(Prism.Language.swift.className == "language-swift")
         #expect(Prism.Language.html.className == "language-html")
         #expect(Prism.Language.css.className == "language-css")
     }
 
     @Test("Theme URLs are correctly formed")
-    func themeURLs() {
+    func `theme URLs`() {
         let version = "1.29.0"
         #expect(
             Prism.Theme.default.cssURL(cdnVersion: version)
@@ -41,7 +41,7 @@ struct PrismTests {
     }
 
     @Test("Plugin URLs are correctly formed")
-    func pluginURLs() {
+    func `plugin URLs`() {
         let version = "1.29.0"
         let lineNumbers = Prism.Plugin.lineNumbers
         #expect(
@@ -55,7 +55,7 @@ struct PrismTests {
     }
 
     @Test("Prism.CodeBlock generates correct HTML")
-    func codeBlockHTML() throws {
+    func `code block HTML`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
             lineNumbers: true,
@@ -71,7 +71,7 @@ struct PrismTests {
     }
 
     @Test("Prism.CodeBlock with title")
-    func codeBlockWithTitle() throws {
+    func `code block with title`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
             title: "Example.swift"
@@ -86,7 +86,7 @@ struct PrismTests {
     }
 
     @Test("Command line code block")
-    func commandLineBlock() throws {
+    func `command line block`() throws {
         let codeBlock = Prism.CodeBlock.bash(
             user: "john",
             host: "macbook",
@@ -105,7 +105,7 @@ struct PrismTests {
     }
 
     @Test("Inline code generation")
-    func inlineCode() throws {
+    func `inline code`() throws {
         let inline = Prism.InlineCode.swift {
             "let x = 42"
         }
@@ -117,7 +117,7 @@ struct PrismTests {
     }
 
     @Test("Configuration presets")
-    func configurationPresets() {
+    func `configuration presets`() {
         let minimal = Prism.Configuration.minimal
         #expect(minimal.languages.count == 3)
         //        #expect(minimal.plugins.isEmpty)
@@ -128,7 +128,7 @@ struct PrismTests {
     }
 
     @Test("Prism.Head includes all necessary resources")
-    func prismHeadResources() throws {
+    func `prism head resources`() throws {
         let config = Prism.Configuration(
             languages: [.swift, .javascript],
             plugins: [.lineNumbers, .copyToClipboard],
@@ -154,7 +154,7 @@ struct PrismTests {
     }
 
     @Test("Swift enhancements are included")
-    func swiftEnhancements() throws {
+    func `swift enhancements`() throws {
         let config = Prism.Configuration(languages: [.swift])
         let head = Prism.Head(configuration: config)
         let html = try String(head)
@@ -167,7 +167,7 @@ struct PrismTests {
     }
 
     @Test("Custom theme creation")
-    func customTheme() {
+    func `custom theme`() {
         var builder = Prism.ThemeBuilder()
         builder.setTokenStyle(
             .keyword,
@@ -182,7 +182,7 @@ struct PrismTests {
     }
 
     @Test("Language groups")
-    func languageGroups() {
+    func `language groups`() {
         #expect(Prism.Language.webLanguages.contains(.html))
         #expect(Prism.Language.webLanguages.contains(.css))
         #expect(Prism.Language.webLanguages.contains(.javascript))
@@ -195,7 +195,7 @@ struct PrismTests {
     }
 
     @Test("Namespace convenience")
-    func namespaceConvenience() throws {
+    func `namespace convenience`() throws {
         // Test that the type aliases work
         let config: Prism.Configuration = .minimal
         let head = Prism.Head(configuration: config)
@@ -213,7 +213,7 @@ struct PrismTests {
     }
 
     @Test("StringBuilder with multiline code")
-    func stringBuilderMultiline() throws {
+    func `string builder multiline`() throws {
         let codeBlock = Prism.CodeBlock.swift {
             """
             struct User {
@@ -230,7 +230,7 @@ struct PrismTests {
     }
 
     @Test("StringBuilder with string interpolation")
-    func stringBuilderInterpolation() throws {
+    func `string builder interpolation`() throws {
         let version = 10
         let codeBlock = Prism.CodeBlock.javascript {
             "console.log('Version: \(version)');"
@@ -241,7 +241,7 @@ struct PrismTests {
     }
 
     @Test("Convenience methods with StringBuilder")
-    func convenienceMethods() throws {
+    func `convenience methods`() throws {
         // Test swift convenience
         let swiftBlock = Prism.CodeBlock.swift(
             lineNumbers: true,
@@ -295,7 +295,7 @@ struct PrismTests {
     }
 
     @Test("InlineCode with StringBuilder")
-    func inlineCodeStringBuilder() throws {
+    func `inline code string builder`() throws {
         let swiftInline = Prism.InlineCode.swift {
             "let result = calculate(x: 10, y: 20)"
         }
@@ -316,7 +316,7 @@ struct PrismTests {
 }
 
 @Test("SnapShot")
-func snapShot() throws {
+func `snap shot`() throws {
     let swiftInline = Prism.InlineCode.swift {
         "let result = calculate(x: 10, y: 20)"
     }

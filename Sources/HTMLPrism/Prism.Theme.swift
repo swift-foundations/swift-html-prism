@@ -17,22 +17,26 @@ extension Prism {
         case coy = "prism-coy"
         case solarizedlight = "prism-solarizedlight"
         case tomorrow = "prism-tomorrow"
+    }
+}
 
-        public var cssFileName: String {
-            "\(rawValue).min.css"
-        }
-
-        public func cssURL(cdnVersion: String) -> String {
-            if self == .default {
-                return
-                    "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/themes/prism.min.css"
-            } else {
-                return
-                    "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/themes/\(rawValue).min.css"
-            }
-        }
+extension Prism.Theme {
+    public var cssFileName: String {
+        "\(rawValue).min.css"
     }
 
+    public func cssURL(cdnVersion: String) -> String {
+        if self == .default {
+            return
+                "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/themes/prism.min.css"
+        } else {
+            return
+                "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/themes/\(rawValue).min.css"
+        }
+    }
+}
+
+extension Prism {
     // Custom theme support
     public struct CustomTheme: Sendable {
         public let name: String
@@ -65,30 +69,34 @@ extension Prism {
             self.fontStyle = fontStyle
             self.textDecoration = textDecoration
         }
-
-        public var cssString: String {
-            var styles: [String] = []
-
-            if let color = color {
-                styles.append("color: \(color.light.description)")
-            }
-            if let backgroundColor = backgroundColor {
-                styles.append("background-color: \(backgroundColor.description)")
-            }
-            if let fontWeight = fontWeight {
-                styles.append("font-weight: \(fontWeight)")
-            }
-            if let fontStyle = fontStyle {
-                styles.append("font-style: \(fontStyle)")
-            }
-            if let textDecoration = textDecoration {
-                styles.append("text-decoration: \(textDecoration)")
-            }
-
-            return styles.joined(separator: "; ")
-        }
     }
+}
 
+extension Prism.TokenStyle {
+    public var cssString: String {
+        var styles: [String] = []
+
+        if let color = color {
+            styles.append("color: \(color.light.description)")
+        }
+        if let backgroundColor = backgroundColor {
+            styles.append("background-color: \(backgroundColor.description)")
+        }
+        if let fontWeight = fontWeight {
+            styles.append("font-weight: \(fontWeight)")
+        }
+        if let fontStyle = fontStyle {
+            styles.append("font-style: \(fontStyle)")
+        }
+        if let textDecoration = textDecoration {
+            styles.append("text-decoration: \(textDecoration)")
+        }
+
+        return styles.joined(separator: "; ")
+    }
+}
+
+extension Prism {
     // Token types for custom themes
     public enum TokenType: String, Sendable, CaseIterable {
         case comment
@@ -124,10 +132,6 @@ extension Prism {
         case bold
         case italic
         case className = "class-name"
-
-        public var selector: String {
-            ".token.\(rawValue)"
-        }
     }
 
     // Custom theme builder
@@ -137,36 +141,44 @@ extension Prism {
         private var darkModeStyles: String = ""
 
         public init() {}
+    }
+}
 
-        public mutating func setTokenStyle(_ tokenType: TokenType, style: TokenStyle) {
-            tokenStyles[tokenType] = style
+extension Prism.TokenType {
+    public var selector: String {
+        ".token.\(rawValue)"
+    }
+}
+
+extension Prism.ThemeBuilder {
+    public mutating func setTokenStyle(_ tokenType: Prism.TokenType, style: Prism.TokenStyle) {
+        tokenStyles[tokenType] = style
+    }
+
+    public mutating func setBaseStyles(_ styles: String) {
+        baseStyles = styles
+    }
+
+    public mutating func setDarkModeStyles(_ styles: String) {
+        darkModeStyles = styles
+    }
+
+    public func build(name: String) -> Prism.CustomTheme {
+        var css = baseStyles + "\n"
+
+        // Sort token types by raw value for deterministic output
+        let sortedTokenStyles = tokenStyles.sorted { $0.key.rawValue < $1.key.rawValue }
+        for (tokenType, style) in sortedTokenStyles {
+            css += "\(tokenType.selector) { \(style.cssString) }\n"
         }
 
-        public mutating func setBaseStyles(_ styles: String) {
-            baseStyles = styles
+        if !darkModeStyles.isEmpty {
+            css += "@media (prefers-color-scheme: dark) {\n"
+            css += darkModeStyles
+            css += "\n}\n"
         }
 
-        public mutating func setDarkModeStyles(_ styles: String) {
-            darkModeStyles = styles
-        }
-
-        public func build(name: String) -> CustomTheme {
-            var css = baseStyles + "\n"
-
-            // Sort token types by raw value for deterministic output
-            let sortedTokenStyles = tokenStyles.sorted { $0.key.rawValue < $1.key.rawValue }
-            for (tokenType, style) in sortedTokenStyles {
-                css += "\(tokenType.selector) { \(style.cssString) }\n"
-            }
-
-            if !darkModeStyles.isEmpty {
-                css += "@media (prefers-color-scheme: dark) {\n"
-                css += darkModeStyles
-                css += "\n}\n"
-            }
-
-            return CustomTheme(name: name, styles: css)
-        }
+        return Prism.CustomTheme(name: name, styles: css)
     }
 }
 

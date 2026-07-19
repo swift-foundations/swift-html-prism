@@ -23,24 +23,26 @@ extension Prism {
             self.cssFileName = cssFileName
             self.configuration = configuration
         }
+    }
+}
 
-        public struct Configuration: Sendable {
-            public let scriptContent: String?
+extension Prism.Plugin {
+    public struct Configuration: Sendable {
+        public let scriptContent: String?
 
-            public init(scriptContent: String? = nil) {
-                self.scriptContent = scriptContent
-            }
+        public init(scriptContent: String? = nil) {
+            self.scriptContent = scriptContent
         }
+    }
 
-        public func scriptURL(cdnVersion: String) -> String {
-            "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacing(" ", with: "-"))/\(fileName)"
-        }
+    public func scriptURL(cdnVersion: String) -> String {
+        "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacing(" ", with: "-"))/\(fileName)"
+    }
 
-        public func cssURL(cdnVersion: String) -> String? {
-            guard let cssFileName = cssFileName else { return nil }
-            return
-                "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacing(" ", with: "-"))/\(cssFileName)"
-        }
+    public func cssURL(cdnVersion: String) -> String? {
+        guard let cssFileName = cssFileName else { return nil }
+        return
+            "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacing(" ", with: "-"))/\(cssFileName)"
     }
 }
 

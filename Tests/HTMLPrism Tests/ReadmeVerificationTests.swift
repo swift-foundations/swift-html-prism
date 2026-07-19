@@ -11,10 +11,10 @@ import HTMLPrism
 import Testing
 
 @Suite("README Verification")
-struct ReadmeVerificationTests {
+struct `README Verification` {
 
     @Test("Quick Start - Basic Usage (lines 47-64)")
-    func quickStartBasicUsage() throws {
+    func `quick start basic usage`() throws {
         // Add PrismJS resources to your HTML head
         let head = Prism.Head.swift
 
@@ -38,7 +38,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Pre-configured Setups (lines 68-80)")
-    func preConfiguredSetups() throws {
+    func `pre configured setups`() throws {
         // Minimal setup with basic web languages
         let minimal = Prism.Head.minimal
 
@@ -58,7 +58,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Custom Configuration (lines 87-95)")
-    func customConfiguration() throws {
+    func `custom configuration`() throws {
         let config = Prism.Configuration(
             languages: [.swift, .javascript, .python, .rust],
             plugins: [.lineNumbers, .lineHighlight, .copyToClipboard, .toolbar],
@@ -75,7 +75,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Basic Code Block with Line Numbers (lines 101-106)")
-    func basicCodeBlockWithLineNumbers() throws {
+    func `basic code block with line numbers`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .javascript,
             lineNumbers: true
@@ -90,7 +90,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Code Block with Line Highlighting (lines 108-116)")
-    func codeBlockWithLineHighlighting() throws {
+    func `code block with line highlighting`() throws {
         let swiftCode = "let x = 1\nlet y = 2\nlet z = 3"
 
         let codeBlock = Prism.CodeBlock(
@@ -108,7 +108,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Code Block with Title (lines 118-124)")
-    func codeBlockWithTitle() throws {
+    func `code block with title`() throws {
         let pythonCode = "print('Hello')"
 
         let codeBlock = Prism.CodeBlock(
@@ -124,7 +124,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Command Line with Output Markers (lines 126-137)")
-    func commandLineWithOutputMarkers() throws {
+    func `command line with output markers`() throws {
         let codeBlock = Prism.CodeBlock.bash(
             user: "john",
             host: "macbook",
@@ -143,7 +143,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Inline Code (lines 143-150)")
-    func inlineCode() throws {
+    func `inline code`() throws {
         let inlineCode = Prism.InlineCode.swift { "print()" }
 
         // Simulate usage in p tag
@@ -153,7 +153,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Language-specific Conveniences (lines 155-162)")
-    func languageSpecificConveniences() throws {
+    func `language specific conveniences`() throws {
         let swiftCode = "let x = 1"
         let jsCode = "const x = 1"
         let htmlCode = "<div></div>"
@@ -180,7 +180,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Inline Code Conveniences (lines 164-166)")
-    func inlineCodeConveniences() throws {
+    func `inline code conveniences`() throws {
         let swiftInline = Prism.InlineCode.swift { "let x = 42" }
         let jsInline = Prism.InlineCode.javascript { "const x = 42;" }
 
@@ -189,7 +189,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Language Access (lines 174-190)")
-    func languageAccess() {
+    func `language access`() {
         // Web languages
         _ = Prism.Language.html
         _ = Prism.Language.css
@@ -211,7 +211,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Language Groups (lines 197-202)")
-    func languageGroups() {
+    func `language groups`() {
         let webLanguages = Prism.Language.webLanguages
         let systemLanguages = Prism.Language.systemLanguages
         let mobileLanguages = Prism.Language.mobileLanguages
@@ -226,7 +226,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Plugin Configuration (lines 208-221)")
-    func pluginConfiguration() {
+    func `plugin configuration`() {
         _ = Prism.Plugin.lineNumbers
         _ = Prism.Plugin.lineHighlight
         _ = Prism.Plugin.copyToClipboard
@@ -244,7 +244,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Built-in Themes (lines 228-236)")
-    func builtinThemes() {
+    func `builtin themes`() {
         _ = Prism.Theme.default
         _ = Prism.Theme.dark
         _ = Prism.Theme.funky
@@ -258,7 +258,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Custom Theme Builder (lines 242-258)")
-    func customThemeBuilder() {
+    func `custom theme builder`() {
         var builder = Prism.ThemeBuilder()
 
         builder.setTokenStyle(
@@ -292,7 +292,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Dependency Injection (lines 280-288)")
-    func dependencyInjection() throws {
+    func `dependency injection`() throws {
         withDependencies {
             $0.prismConfiguration = .swift
         } operation: {
@@ -306,7 +306,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Custom Scripts (lines 293-301)")
-    func customScripts() throws {
+    func `custom scripts`() throws {
         let config = Prism.Configuration(
             customScripts: """
                 Prism.hooks.add('complete', function(env) {
@@ -323,7 +323,7 @@ struct ReadmeVerificationTests {
     }
 
     @Test("Custom Styles (lines 306-316)")
-    func customStyles() throws {
+    func `custom styles`() throws {
         let config = Prism.Configuration(
             customStyles: """
                 pre[class*="language-"] {

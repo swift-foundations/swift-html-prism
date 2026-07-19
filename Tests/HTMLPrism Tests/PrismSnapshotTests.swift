@@ -17,7 +17,7 @@ import Testing
 struct Snapshots {
 
     @Test("InlineCode Swift Snapshot")
-    func inlineCodeSwiftSnapshot() throws {
+    func `inline code swift snapshot`() throws {
         let swiftInline = Prism.InlineCode.swift {
             "let result = calculate(x: 10, y: 20)"
         }
@@ -42,7 +42,7 @@ struct Snapshots {
     }
 
     @Test("InlineCode JavaScript Snapshot")
-    func inlineCodeJavaScriptSnapshot() throws {
+    func `inline code java script snapshot`() throws {
         let jsInline = Prism.InlineCode.javascript {
             "const result = calculate(10, 20);"
         }
@@ -58,7 +58,7 @@ struct Snapshots {
     }
 
     @Test("CodeBlock Swift Snapshot")
-    func codeBlockSwiftSnapshot() throws {
+    func `code block swift snapshot`() throws {
         let codeBlock = Prism.CodeBlock.swift {
             """
             struct User {
@@ -83,7 +83,7 @@ struct Snapshots {
     }
 
     @Test("CodeBlock with Line Numbers Snapshot")
-    func codeBlockWithLineNumbersSnapshot() throws {
+    func `code block with line numbers snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
             lineNumbers: true
@@ -109,7 +109,7 @@ struct Snapshots {
     }
 
     @Test("CodeBlock with Title Snapshot")
-    func codeBlockWithTitleSnapshot() throws {
+    func `code block with title snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
             title: "Greeting.swift"
@@ -142,7 +142,7 @@ struct Snapshots {
     }
 
     @Test("CodeBlock with Highlighted Lines Snapshot")
-    func codeBlockWithHighlightedLinesSnapshot() throws {
+    func `code block with highlighted lines snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .javascript,
             lineNumbers: true,
@@ -180,7 +180,7 @@ struct Snapshots {
     }
 
     @Test("Command Line Block Snapshot")
-    func commandLineBlockSnapshot() throws {
+    func `command line block snapshot`() throws {
         let bashBlock = Prism.CodeBlock.bash(
             user: "admin",
             host: "server",
@@ -216,7 +216,7 @@ struct Snapshots {
     }
 
     @Test("JSON Block Snapshot")
-    func jsonBlockSnapshot() throws {
+    func `json block snapshot`() throws {
         let jsonBlock = Prism.CodeBlock.json(lineNumbers: true) {
             """
             {
@@ -252,7 +252,7 @@ struct Snapshots {
     }
 
     @Test("Diff Block Snapshot")
-    func diffBlockSnapshot() throws {
+    func `diff block snapshot`() throws {
         let diffBlock = Prism.CodeBlock.diff {
             """
             - let oldValue = 42
@@ -284,7 +284,7 @@ struct Snapshots {
     }
 
     @Test("Prism Head Minimal Snapshot")
-    func prismHeadMinimalSnapshot() throws {
+    func `prism head minimal snapshot`() throws {
         let head = Prism.Head.minimal
 
         assertInlineSnapshot(
@@ -352,7 +352,7 @@ struct Snapshots {
     }
 
     @Test("Prism Head Swift Configuration Snapshot")
-    func prismHeadSwiftSnapshot() throws {
+    func `prism head swift snapshot`() throws {
         let head = Prism.Head.swift
 
         assertInlineSnapshot(
@@ -492,7 +492,7 @@ struct Snapshots {
     }
 
     @Test("Prism Head Custom Configuration Snapshot")
-    func prismHeadCustomSnapshot() throws {
+    func `prism head custom snapshot`() throws {
         let config = Prism.Configuration(
             languages: [.swift, .javascript],
             plugins: [.lineNumbers, .copyToClipboard],
@@ -604,7 +604,7 @@ struct Snapshots {
     }
 
     @Test("Complex CodeBlock with All Features Snapshot")
-    func complexCodeBlockSnapshot() throws {
+    func `complex code block snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
             lineNumbers: true,
@@ -658,7 +658,7 @@ struct Snapshots {
     }
 
     @Test("HTML CodeBlock Snapshot")
-    func htmlCodeBlockSnapshot() throws {
+    func `html code block snapshot`() throws {
         let htmlBlock = Prism.CodeBlock.html(
             lineNumbers: true
         ) {
@@ -704,7 +704,7 @@ struct Snapshots {
     }
 
     @Test("CSS CodeBlock Snapshot")
-    func cssCodeBlockSnapshot() throws {
+    func `css code block snapshot`() throws {
         let cssBlock = Prism.CodeBlock.css(
             lineNumbers: true
         ) {

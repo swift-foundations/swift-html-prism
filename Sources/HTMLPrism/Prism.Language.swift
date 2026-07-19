@@ -432,14 +432,16 @@ extension Prism {
         case yml = "yml"
         case yang = "yang"
         case zig = "zig"
+    }
+}
 
-        public var cdnComponentPath: String {
-            "prism-\(rawValue).min.js"
-        }
+extension Prism.Language {
+    public var cdnComponentPath: String {
+        "prism-\(rawValue).min.js"
+    }
 
-        public var className: String {
-            "language-\(rawValue)"
-        }
+    public var className: String {
+        "language-\(rawValue)"
     }
 }
 
