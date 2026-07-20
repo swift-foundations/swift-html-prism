@@ -16,7 +16,7 @@ extension Prism.Language {
     struct Tests {
         @Suite
         struct Unit {
-            @Test("known alias language cases resolve their CDN component path to their canonical component file")
+            @Test
             func aliasLanguagesResolveCanonicalComponentPath() {
                 #expect(Prism.Language.html.cdnComponentPath == "prism-markup.min.js")
                 #expect(Prism.Language.xml.cdnComponentPath == "prism-markup.min.js")
@@ -28,7 +28,7 @@ extension Prism.Language {
                 #expect(Prism.Language.yml.cdnComponentPath == "prism-yaml.min.js")
             }
 
-            @Test("canonical language cases keep resolving their own CDN component path")
+            @Test
             func canonicalLanguagesKeepOwnComponentPath() {
                 #expect(Prism.Language.markup.cdnComponentPath == "prism-markup.min.js")
                 #expect(Prism.Language.javascript.cdnComponentPath == "prism-javascript.min.js")
@@ -36,7 +36,7 @@ extension Prism.Language {
                 #expect(Prism.Language.bash.cdnComponentPath == "prism-bash.min.js")
             }
 
-            @Test("className keeps using the case's own identifier, not the canonical component id")
+            @Test
             func classNameStaysCaseSpecific() {
                 // Prism resolves alias class names (e.g. "language-js") to the canonical
                 // grammar at runtime; only the CDN component *file* needs remapping.
@@ -47,7 +47,7 @@ extension Prism.Language {
 
         @Suite
         struct `Edge Case` {
-            @Test("the markup family of aliases all resolve to the markup component")
+            @Test
             func markupFamilyAliasesResolveToMarkupComponent() {
                 let markupAliases: [Prism.Language] = [.html, .xml, .svg, .mathml, .ssml, .atom, .rss]
                 for alias in markupAliases {
@@ -55,7 +55,7 @@ extension Prism.Language {
                 }
             }
 
-            @Test("every CaseIterable language case produces a non-empty component path")
+            @Test
             func everyLanguageCaseProducesNonEmptyComponentPath() {
                 for language in Prism.Language.allCases {
                     #expect(!language.cdnComponentPath.isEmpty)

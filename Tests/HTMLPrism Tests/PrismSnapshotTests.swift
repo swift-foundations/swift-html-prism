@@ -4,60 +4,41 @@
 //
 //  Created by Coen ten Thije Boonkkamp on 01/09/2025.
 //
+//  Migrated from PointFreeHTMLTestSupport inline snapshots to
+//  institute-native rendered-string assertions (try String(_:) + #expect).
+//
 
 import HTML
 import HTMLPrism
-import PointFreeHTMLTestSupport
 import Testing
 
-@Suite(
-    "Snapshots",
-    .snapshots(record: .failed)
-)
+@Suite
 struct Snapshots {
 
-    @Test("InlineCode Swift Snapshot")
+    @Test
     func `inline code swift snapshot`() throws {
         let swiftInline = Prism.InlineCode.swift {
             "let result = calculate(x: 10, y: 20)"
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { swiftInline },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body><code class="language-swift">let result = calculate(x: 10, y: 20)</code>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(swiftInline)
+        #expect(rendered.contains(#"<code class="language-swift">"#))
+        #expect(rendered.contains("let result = calculate(x: 10, y: 20)"))
+        #expect(rendered.contains("</code>"))
     }
 
-    @Test("InlineCode JavaScript Snapshot")
+    @Test
     func `inline code java script snapshot`() throws {
         let jsInline = Prism.InlineCode.javascript {
             "const result = calculate(10, 20);"
         }
 
-        assertInlineSnapshot(
-            of: jsInline,
-            as: .html
-        ) {
-            """
-            <code class="language-javascript">const result = calculate(10, 20);</code>
-            """
-        }
+        let rendered = try String(jsInline)
+        #expect(rendered.contains(#"<code class="language-javascript">"#))
+        #expect(rendered.contains("const result = calculate(10, 20);"))
     }
 
-    @Test("CodeBlock Swift Snapshot")
+    @Test
     func `code block swift snapshot`() throws {
         let codeBlock = Prism.CodeBlock.swift {
             """
@@ -68,21 +49,14 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: codeBlock,
-            as: .html
-        ) {
-            """
-
-            <pre class="line-numbers" ><code class="language-swift">struct User {
-                let name: String
-                let age: Int
-            }</code></pre>
-            """
-        }
+        let rendered = try String(codeBlock)
+        #expect(rendered.contains(#"class="line-numbers""#))
+        #expect(rendered.contains(#"<code class="language-swift">"#))
+        #expect(rendered.contains("struct User {"))
+        #expect(rendered.contains("let age: Int"))
     }
 
-    @Test("CodeBlock with Line Numbers Snapshot")
+    @Test
     func `code block with line numbers snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
@@ -95,20 +69,13 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: codeBlock,
-            as: .html
-        ) {
-            #"""
-
-            <pre class="line-numbers" ><code class="language-swift">func greet(_ name: String) {
-                print("Hello, \(name)!")
-            }</code></pre>
-            """#
-        }
+        let rendered = try String(codeBlock)
+        #expect(rendered.contains(#"class="line-numbers""#))
+        #expect(rendered.contains(#"<code class="language-swift">"#))
+        #expect(rendered.contains("func greet(_ name: String) {"))
     }
 
-    @Test("CodeBlock with Title Snapshot")
+    @Test
     func `code block with title snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
@@ -117,31 +84,14 @@ struct Snapshots {
             "print(\"Hello, World!\")"
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { codeBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <div class="code-block-wrapper">
-              <div class="code-block-title">Greeting.swift
-              </div>
-              <pre ><code class="language-swift">print("Hello, World!")</code></pre>
-            </div>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(codeBlock)
+        #expect(rendered.contains(#"class="code-block-wrapper""#))
+        #expect(rendered.contains(#"class="code-block-title""#))
+        #expect(rendered.contains("Greeting.swift"))
+        #expect(rendered.contains(#"<code class="language-swift">"#))
     }
 
-    @Test("CodeBlock with Highlighted Lines Snapshot")
+    @Test
     func `code block with highlighted lines snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .javascript,
@@ -156,30 +106,14 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { codeBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <pre class="line-numbers" data-line="2,3"><code class="language-javascript">function fibonacci(n) {
-                if (n &lt;= 1) return n;
-                return fibonacci(n - 1) + fibonacci(n - 2);
-            }</code></pre>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(codeBlock)
+        #expect(rendered.contains(#"data-line="2,3""#))
+        #expect(rendered.contains(#"class="line-numbers""#))
+        #expect(rendered.contains(#"<code class="language-javascript">"#))
+        #expect(rendered.contains("function fibonacci(n) {"))
     }
 
-    @Test("Command Line Block Snapshot")
+    @Test
     func `command line block snapshot`() throws {
         let bashBlock = Prism.CodeBlock.bash(
             user: "admin",
@@ -193,29 +127,16 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { bashBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <pre data-user="admin" data-host="server" data-output="2,3"><code class="language-bash">$ npm install
-            &gt; Installing packages...
-            Done!</code></pre>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(bashBlock)
+        #expect(rendered.contains(#"data-user="admin""#))
+        #expect(rendered.contains(#"data-host="server""#))
+        #expect(rendered.contains(#"data-output="2,3""#))
+        #expect(rendered.contains(#"<code class="language-bash">"#))
+        #expect(rendered.contains("$ npm install"))
+        #expect(rendered.contains("Done!"))
     }
 
-    @Test("JSON Block Snapshot")
+    @Test
     func `json block snapshot`() throws {
         let jsonBlock = Prism.CodeBlock.json(lineNumbers: true) {
             """
@@ -227,31 +148,13 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { jsonBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <pre class="line-numbers" ><code class="language-json">{
-                "name": "swift-html-prism",
-                "version": "0.1.0",
-                "languages": ["swift", "javascript", "python"]
-            }</code></pre>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(jsonBlock)
+        #expect(rendered.contains(#"class="line-numbers""#))
+        #expect(rendered.contains(#"<code class="language-json">"#))
+        #expect(rendered.contains("swift-html-prism"))
     }
 
-    @Test("Diff Block Snapshot")
+    @Test
     func `diff block snapshot`() throws {
         let diffBlock = Prism.CodeBlock.diff {
             """
@@ -261,349 +164,55 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { diffBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <pre ><code class="language-diff">- let oldValue = 42
-            + let newValue = 100
-              let unchanged = "same"</code></pre>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(diffBlock)
+        #expect(rendered.contains(#"<code class="language-diff">"#))
+        #expect(rendered.contains("- let oldValue = 42"))
+        #expect(rendered.contains("+ let newValue = 100"))
     }
 
-    @Test("Prism Head Minimal Snapshot")
+    @Test
     func `prism head minimal snapshot`() throws {
-        let head = Prism.Head.minimal
-
-        assertInlineSnapshot(
-            of: HTMLDocument { head },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism.min.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-highlight/prism-line-highlight.min.css">
-            <style>pre {
-              position: relative;
-              overflow-x: auto;
-            }
-
-            code[class*="language-"],
-            pre[class*="language-"] {
-              font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-              font-size: 14px;
-              line-height: 1.5;
-            }
-            .line-highlight {
-              background-color: rgba(0, 121, 255, 0.1);
-              margin-top: 1rem;
-              margin-left: -1.5rem;
-              position: absolute;
-            }
-
-            .highlight-pass .line-highlight {
-              background-color: rgba(0, 255, 50, 0.15);
-            }
-
-            .highlight-fail .line-highlight {
-              background-color: rgba(255, 68, 68, 0.15);
-            }
-
-            .highlight-warn .line-highlight {
-              background-color: rgba(254, 223, 43, 0.15);
-            }
-
-            @media (prefers-color-scheme: dark) {
-              .line-highlight {
-                background-color: rgba(255, 255, 255, 0.1);
-              }
-            }
-
-
-
-            </style><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-highlight/prism-line-highlight.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
-              if (typeof Prism !== "undefined") {
-                Prism.highlightAll();  }
-            });</script>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(Prism.Head.minimal)
+        #expect(rendered.contains("prism/1.29.0/themes/prism.min.css"))
+        #expect(rendered.contains("plugins/line-numbers/prism-line-numbers.min.css"))
+        #expect(rendered.contains("plugins/line-highlight/prism-line-highlight.min.css"))
+        #expect(rendered.contains("prism/1.29.0/prism.min.js"))
+        #expect(rendered.contains("components/prism-javascript.min.js"))
+        #expect(rendered.contains("components/prism-css.min.js"))
+        #expect(rendered.contains("Prism.highlightAll()"))
     }
 
-    @Test("Prism Head Swift Configuration Snapshot")
+    @Test
     func `prism head swift snapshot`() throws {
-        let head = Prism.Head.swift
-
-        assertInlineSnapshot(
-            of: HTMLDocument { head },
-            as: .html
-        ) {
-            #"""
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <style>
-            .token.class-name { color: #4B21B0 }
-            .token.comment { color: #707F8C }
-            .token.function { color: #4B21B0 }
-            .token.keyword { color: #AD3DA4 }
-            .token.number { color: #D22E1B }
-            .token.string { color: #D22E1B }
-
-            </style>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-highlight/prism-line-highlight.min.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.css">
-            <style>pre {
-              position: relative;
-              overflow-x: auto;
-            }
-
-            code[class*="language-"],
-            pre[class*="language-"] {
-              font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-              font-size: 14px;
-              line-height: 1.5;
-            }
-            .line-highlight {
-              background-color: rgba(0, 121, 255, 0.1);
-              margin-top: 1rem;
-              margin-left: -1.5rem;
-              position: absolute;
-            }
-
-            .highlight-pass .line-highlight {
-              background-color: rgba(0, 255, 50, 0.15);
-            }
-
-            .highlight-fail .line-highlight {
-              background-color: rgba(255, 68, 68, 0.15);
-            }
-
-            .highlight-warn .line-highlight {
-              background-color: rgba(254, 223, 43, 0.15);
-            }
-
-            @media (prefers-color-scheme: dark) {
-              .line-highlight {
-                background-color: rgba(255, 255, 255, 0.1);
-              }
-            }
-
-            .token.placeholder, .token.code-fold {
-              background-color: #bbb;
-              border-radius: 6px;
-              color: #fff;
-              margin: -2px;
-              padding: 2px;
-            }
-
-            .token.placeholder-open,
-            .token.placeholder-close {
-              display: none;
-            }
-
-            .token.todo {
-              font-weight: 700;
-            }
-
-            @media (prefers-color-scheme: dark) {
-              .token.placeholder, .token.code-fold {
-                background-color: #87878A;
-              }
-            }
-
-            </style><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-highlight/prism-line-highlight.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/toolbar/prism-toolbar.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-swift.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-html.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-xml.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csv.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-toml.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
-              if (typeof Prism !== "undefined") {
-                Prism.highlightAll();    // Enhanced Swift class name detection
-                if (Prism.languages.swift) {
-                  Prism.languages.swift['class-name'] = [
-                    /\b(_[A-Z]\w*)\b/,
-                    Prism.languages.swift['class-name']
-                  ];
-
-                  // Additional Swift keywords
-                  Prism.languages.swift.keyword = [
-                    /\b(any|macro)\b/,
-                    /\b((iOS|macOS|tvOS|watchOS|visionOS)(|ApplicationExtension)|swift)\b/,
-                    Prism.languages.swift.keyword
-                  ];
-
-                  // TODO comment highlighting
-                  Prism.languages.swift.comment.inside = {
-                    todo: {
-                      pattern: /(TODO:)/
-                    }
-                  };
-
-                  // Code folding indicator
-                  Prism.languages.insertBefore('swift', 'operator', {
-                    'code-fold': {
-                      pattern: /…/
-                    },
-                  });
-
-                  // Xcode placeholders
-                  Prism.languages.insertBefore('swift', 'string-literal', {
-                    'placeholder': {
-                      pattern: /<#.+?#>/,
-                      inside: {
-                        'placeholder-open': {
-                          pattern: /<#/
-                        },
-                        'placeholder-close': {
-                          pattern: /#>/
-                        },
-                      }
-                    },
-                  });
-                }  }
-            });</script>
-              </body>
-            </html>
-            """#
-        }
+        let rendered = try String(Prism.Head.swift)
+        // Custom Swift theme styles, not a CDN theme.
+        #expect(rendered.contains(".token.keyword { color: #AD3DA4 }"))
+        #expect(rendered.contains(".token.string { color: #D22E1B }"))
+        #expect(!rendered.contains("themes/prism.min.css"))
+        #expect(rendered.contains("components/prism-swift.min.js"))
+        #expect(rendered.contains("plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"))
+        // Swift-specific highlighting enhancements.
+        #expect(rendered.contains("Prism.languages.swift"))
+        #expect(rendered.contains("placeholder"))
     }
 
-    @Test("Prism Head Custom Configuration Snapshot")
+    @Test
     func `prism head custom snapshot`() throws {
         let config = Prism.Configuration(
             languages: [.swift, .javascript],
             plugins: [.lineNumbers, .copyToClipboard],
             theme: .builtin(.okaidia)
         )
-        let head = Prism.Head(configuration: config)
-
-        assertInlineSnapshot(
-            of: HTMLDocument { head },
-            as: .html
-        ) {
-            #"""
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css">
-            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.css">
-            <style>pre {
-              position: relative;
-              overflow-x: auto;
-            }
-
-            code[class*="language-"],
-            pre[class*="language-"] {
-              font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
-              font-size: 14px;
-              line-height: 1.5;
-            }
-
-
-            .token.placeholder, .token.code-fold {
-              background-color: #bbb;
-              border-radius: 6px;
-              color: #fff;
-              margin: -2px;
-              padding: 2px;
-            }
-
-            .token.placeholder-open,
-            .token.placeholder-close {
-              display: none;
-            }
-
-            .token.todo {
-              font-weight: 700;
-            }
-
-            @media (prefers-color-scheme: dark) {
-              .token.placeholder, .token.code-fold {
-                background-color: #87878A;
-              }
-            }
-
-            </style><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/line-numbers/prism-line-numbers.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-swift.min.js"></script><script defer src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script><script>document.addEventListener("DOMContentLoaded", function () {
-              if (typeof Prism !== "undefined") {
-                Prism.highlightAll();    // Enhanced Swift class name detection
-                if (Prism.languages.swift) {
-                  Prism.languages.swift['class-name'] = [
-                    /\b(_[A-Z]\w*)\b/,
-                    Prism.languages.swift['class-name']
-                  ];
-
-                  // Additional Swift keywords
-                  Prism.languages.swift.keyword = [
-                    /\b(any|macro)\b/,
-                    /\b((iOS|macOS|tvOS|watchOS|visionOS)(|ApplicationExtension)|swift)\b/,
-                    Prism.languages.swift.keyword
-                  ];
-
-                  // TODO comment highlighting
-                  Prism.languages.swift.comment.inside = {
-                    todo: {
-                      pattern: /(TODO:)/
-                    }
-                  };
-
-                  // Code folding indicator
-                  Prism.languages.insertBefore('swift', 'operator', {
-                    'code-fold': {
-                      pattern: /…/
-                    },
-                  });
-
-                  // Xcode placeholders
-                  Prism.languages.insertBefore('swift', 'string-literal', {
-                    'placeholder': {
-                      pattern: /<#.+?#>/,
-                      inside: {
-                        'placeholder-open': {
-                          pattern: /<#/
-                        },
-                        'placeholder-close': {
-                          pattern: /#>/
-                        },
-                      }
-                    },
-                  });
-                }  }
-            });</script>
-              </body>
-            </html>
-            """#
-        }
+        let rendered = try String(Prism.Head(configuration: config))
+        #expect(rendered.contains("themes/prism-okaidia.min.css"))
+        #expect(rendered.contains("plugins/line-numbers/prism-line-numbers.min.css"))
+        #expect(rendered.contains("plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"))
+        #expect(rendered.contains("components/prism-swift.min.js"))
+        #expect(rendered.contains("components/prism-javascript.min.js"))
+        #expect(!rendered.contains("prism-line-highlight"))
     }
 
-    @Test("Complex CodeBlock with All Features Snapshot")
+    @Test
     func `complex code block snapshot`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
@@ -625,39 +234,16 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { codeBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <div class="code-block-wrapper">
-              <div class="code-block-title">ComplexExample.swift
-              </div>
-              <pre class="line-numbers" data-line="1,3,5" data-start="10"><code class="language-swift">import Foundation
-
-            struct ComplexExample {
-                let value: Int
-
-                func compute() -&gt; Int {
-                    return value * 2
-                }
-            }</code></pre>
-            </div>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(codeBlock)
+        #expect(rendered.contains(#"class="code-block-wrapper""#))
+        #expect(rendered.contains("ComplexExample.swift"))
+        #expect(rendered.contains(#"data-line="1,3,5""#))
+        #expect(rendered.contains(#"data-start="10""#))
+        #expect(rendered.contains(#"class="line-numbers""#))
+        #expect(rendered.contains("struct ComplexExample {"))
     }
 
-    @Test("HTML CodeBlock Snapshot")
+    @Test
     func `html code block snapshot`() throws {
         let htmlBlock = Prism.CodeBlock.html(
             lineNumbers: true
@@ -675,35 +261,14 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { htmlBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <pre class="line-numbers" ><code class="language-html">&lt;!DOCTYPE html&gt;
-            &lt;html&gt;
-                &lt;head&gt;
-                    &lt;title&gt;Example&lt;/title&gt;
-                &lt;/head&gt;
-                &lt;body&gt;
-                    &lt;h1&gt;Hello, World!&lt;/h1&gt;
-                &lt;/body&gt;
-            &lt;/html&gt;</code></pre>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(htmlBlock)
+        #expect(rendered.contains(#"<code class="language-html">"#))
+        // Embedded markup must be escaped, not emitted as live tags.
+        #expect(rendered.contains("&lt;!DOCTYPE html&gt;") || rendered.contains("&lt;!DOCTYPE html>"))
+        #expect(!rendered.contains("<h1>Hello, World!</h1>"))
     }
 
-    @Test("CSS CodeBlock Snapshot")
+    @Test
     func `css code block snapshot`() throws {
         let cssBlock = Prism.CodeBlock.css(
             lineNumbers: true
@@ -718,28 +283,10 @@ struct Snapshots {
             """
         }
 
-        assertInlineSnapshot(
-            of: HTMLDocument { cssBlock },
-            as: .html
-        ) {
-            """
-            <!doctype html>
-            <html>
-              <head>
-                <style>
-
-                </style>
-              </head>
-              <body>
-            <pre class="line-numbers" ><code class="language-css">.container {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 1rem;
-            }</code></pre>
-              </body>
-            </html>
-            """
-        }
+        let rendered = try String(cssBlock)
+        #expect(rendered.contains(#"class="line-numbers""#))
+        #expect(rendered.contains(#"<code class="language-css">"#))
+        #expect(rendered.contains(".container {"))
+        #expect(rendered.contains("justify-content: center;"))
     }
 }

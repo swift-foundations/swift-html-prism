@@ -50,14 +50,14 @@ extension Prism {
 
     // Token styling
     public struct TokenStyle: Sendable {
-        public let color: HTMLColor?
+        public let color: DarkModeColor?
         public let backgroundColor: BackgroundColor?
         public let fontWeight: FontWeight?
         public let fontStyle: FontStyle?
         public let textDecoration: TextDecoration?
 
         public init(
-            color: HTMLColor? = nil,
+            color: DarkModeColor? = nil,
             backgroundColor: BackgroundColor? = nil,
             fontWeight: FontWeight? = nil,
             fontStyle: FontStyle? = nil,
@@ -96,7 +96,7 @@ extension Prism.TokenStyle {
     }
 
     /// The dark-mode-only declarations for this style, or `nil` when this style specifies no
-    /// dark-mode-relevant properties. `color` is the only property backed by `HTMLColor`
+    /// dark-mode-relevant properties. `color` is the only property backed by `DarkModeColor`
     /// (a light/dark pair); the other properties are mode-independent and already covered by
     /// ``cssString``.
     public var darkCSSString: String? {
@@ -181,7 +181,7 @@ extension Prism.ThemeBuilder {
             css += "\(tokenType.selector) { \(style.cssString) }\n"
         }
 
-        // Dark half of any dual-mode (HTMLColor) token style, plus any free-form dark-mode
+        // Dark half of any dual-mode (DarkModeColor) token style, plus any free-form dark-mode
         // styles, share the same `prefers-color-scheme: dark` block.
         let darkTokenRules = sortedTokenStyles.compactMap { tokenType, style in
             style.darkCSSString.map { "\(tokenType.selector) { \($0) }" }
@@ -210,42 +210,42 @@ extension Prism.CustomTheme {
         builder.setTokenStyle(
             .keyword,
             style: Prism.TokenStyle(
-                color: HTMLColor(light: .hex("#AD3DA4"), dark: .hex("#FF79B2"))
+                color: DarkModeColor(light: .hex("#AD3DA4"), dark: .hex("#FF79B2"))
             )
         )
 
         builder.setTokenStyle(
             .className,
             style: Prism.TokenStyle(
-                color: HTMLColor(light: .hex("#4B21B0"), dark: .hex("#DABAFF"))
+                color: DarkModeColor(light: .hex("#4B21B0"), dark: .hex("#DABAFF"))
             )
         )
 
         builder.setTokenStyle(
             .function,
             style: Prism.TokenStyle(
-                color: HTMLColor(light: .hex("#4B21B0"), dark: .hex("#DABAFF"))
+                color: DarkModeColor(light: .hex("#4B21B0"), dark: .hex("#DABAFF"))
             )
         )
 
         builder.setTokenStyle(
             .comment,
             style: Prism.TokenStyle(
-                color: HTMLColor(light: .hex("#707F8C"), dark: .hex("#7E8C98"))
+                color: DarkModeColor(light: .hex("#707F8C"), dark: .hex("#7E8C98"))
             )
         )
 
         builder.setTokenStyle(
             .string,
             style: Prism.TokenStyle(
-                color: HTMLColor(light: .hex("#D22E1B"), dark: .hex("#FF8170"))
+                color: DarkModeColor(light: .hex("#D22E1B"), dark: .hex("#FF8170"))
             )
         )
 
         builder.setTokenStyle(
             .number,
             style: Prism.TokenStyle(
-                color: HTMLColor(light: .hex("#D22E1B"), dark: .hex("#FF8170"))
+                color: DarkModeColor(light: .hex("#D22E1B"), dark: .hex("#FF8170"))
             )
         )
 

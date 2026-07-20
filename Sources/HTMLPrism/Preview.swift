@@ -10,7 +10,7 @@
     import HTML
 
     #Preview {
-        HTMLDocument {
+        HTML.Document {
             Prism.InlineCode.swift {
                 """
                 let x: String = ""
@@ -22,7 +22,7 @@
     }
 
     #Preview {
-        HTMLDocument {
+        HTML.Document {
             Prism.CodeBlock(
                 language: .javascript,
                 lineNumbers: true,

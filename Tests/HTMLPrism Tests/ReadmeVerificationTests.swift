@@ -10,10 +10,10 @@ import HTML
 import HTMLPrism
 import Testing
 
-@Suite("README Verification")
+@Suite
 struct `README Verification` {
 
-    @Test("Quick Start - Basic Usage (lines 47-64)")
+    @Test
     func `quick start basic usage`() throws {
         // Add PrismJS resources to your HTML head
         let head = Prism.Head.swift
@@ -37,7 +37,7 @@ struct `README Verification` {
         #expect(codeHtml.contains("struct Greeting"))
     }
 
-    @Test("Pre-configured Setups (lines 68-80)")
+    @Test
     func `pre configured setups`() throws {
         // Minimal setup with basic web languages
         let minimal = Prism.Head.minimal
@@ -57,7 +57,7 @@ struct `README Verification` {
         #expect(try String(swift).contains("prism"))
     }
 
-    @Test("Custom Configuration (lines 87-95)")
+    @Test
     func `custom configuration`() throws {
         let config = Prism.Configuration(
             languages: [.swift, .javascript, .python, .rust],
@@ -74,7 +74,7 @@ struct `README Verification` {
         #expect(html.contains("prism-javascript.min.js"))
     }
 
-    @Test("Basic Code Block with Line Numbers (lines 101-106)")
+    @Test
     func `basic code block with line numbers`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .javascript,
@@ -89,7 +89,7 @@ struct `README Verification` {
         #expect(html.contains("console.log"))
     }
 
-    @Test("Code Block with Line Highlighting (lines 108-116)")
+    @Test
     func `code block with line highlighting`() throws {
         let swiftCode = "let x = 1\nlet y = 2\nlet z = 3"
 
@@ -107,7 +107,7 @@ struct `README Verification` {
         #expect(html.contains("line-numbers"))
     }
 
-    @Test("Code Block with Title (lines 118-124)")
+    @Test
     func `code block with title`() throws {
         let pythonCode = "print('Hello')"
 
@@ -123,7 +123,7 @@ struct `README Verification` {
         #expect(html.contains("code-block-title"))
     }
 
-    @Test("Command Line with Output Markers (lines 126-137)")
+    @Test
     func `command line with output markers`() throws {
         let codeBlock = Prism.CodeBlock.bash(
             user: "john",
@@ -142,7 +142,7 @@ struct `README Verification` {
         #expect(html.contains("npm install"))
     }
 
-    @Test("Inline Code (lines 143-150)")
+    @Test
     func `inline code`() throws {
         let inlineCode = Prism.InlineCode.swift { "print()" }
 
@@ -152,7 +152,7 @@ struct `README Verification` {
         #expect(html.contains("print()"))
     }
 
-    @Test("Language-specific Conveniences (lines 155-162)")
+    @Test
     func `language specific conveniences`() throws {
         let swiftCode = "let x = 1"
         let jsCode = "const x = 1"
@@ -179,7 +179,7 @@ struct `README Verification` {
         #expect(try String(jsonBlock).contains("language-json"))
     }
 
-    @Test("Inline Code Conveniences (lines 164-166)")
+    @Test
     func `inline code conveniences`() throws {
         let swiftInline = Prism.InlineCode.swift { "let x = 42" }
         let jsInline = Prism.InlineCode.javascript { "const x = 42;" }
@@ -188,7 +188,7 @@ struct `README Verification` {
         #expect(try String(jsInline).contains("language-javascript"))
     }
 
-    @Test("Language Access (lines 174-190)")
+    @Test
     func `language access`() {
         // Web languages
         _ = Prism.Language.html
@@ -210,7 +210,7 @@ struct `README Verification` {
         #expect(Prism.Language.swift.className == "language-swift")
     }
 
-    @Test("Language Groups (lines 197-202)")
+    @Test
     func `language groups`() {
         let webLanguages = Prism.Language.webLanguages
         let systemLanguages = Prism.Language.systemLanguages
@@ -225,7 +225,7 @@ struct `README Verification` {
         #expect(dataLanguages.contains(.json))
     }
 
-    @Test("Plugin Configuration (lines 208-221)")
+    @Test
     func `plugin configuration`() {
         _ = Prism.Plugin.lineNumbers
         _ = Prism.Plugin.lineHighlight
@@ -243,7 +243,7 @@ struct `README Verification` {
         #expect(config.plugins.count == 3)
     }
 
-    @Test("Built-in Themes (lines 228-236)")
+    @Test
     func `builtin themes`() {
         _ = Prism.Theme.default
         _ = Prism.Theme.dark
@@ -257,7 +257,7 @@ struct `README Verification` {
         #expect(Prism.Theme.okaidia.rawValue == "prism-okaidia")
     }
 
-    @Test("Custom Theme Builder (lines 242-258)")
+    @Test
     func `custom theme builder`() {
         var builder = Prism.ThemeBuilder()
 
@@ -291,7 +291,7 @@ struct `README Verification` {
         }
     }
 
-    @Test("Dependency Injection (lines 280-288)")
+    @Test
     func `dependency injection`() throws {
         withDependencies {
             $0.prismConfiguration = .swift
@@ -305,7 +305,7 @@ struct `README Verification` {
         }
     }
 
-    @Test("Custom Scripts (lines 293-301)")
+    @Test
     func `custom scripts`() throws {
         let config = Prism.Configuration(
             customScripts: """
@@ -322,7 +322,7 @@ struct `README Verification` {
         #expect(html.contains("complete"))
     }
 
-    @Test("Custom Styles (lines 306-316)")
+    @Test
     func `custom styles`() throws {
         let config = Prism.Configuration(
             customStyles: """

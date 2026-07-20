@@ -7,27 +7,26 @@
 
 import HTML
 import HTMLPrism
-import PointFreeHTMLTestSupport
 import Testing
 
-@Suite("Prism Tests")
+@Suite
 struct `Prism Tests` {
 
-    @Test("Language enum has correct CDN paths")
+    @Test
     func `language CDN paths`() {
         #expect(Prism.Language.swift.cdnComponentPath == "prism-swift.min.js")
         #expect(Prism.Language.javascript.cdnComponentPath == "prism-javascript.min.js")
         #expect(Prism.Language.python.cdnComponentPath == "prism-python.min.js")
     }
 
-    @Test("Language class names are correct")
+    @Test
     func `language class names`() {
         #expect(Prism.Language.swift.className == "language-swift")
         #expect(Prism.Language.html.className == "language-html")
         #expect(Prism.Language.css.className == "language-css")
     }
 
-    @Test("Theme URLs are correctly formed")
+    @Test
     func `theme URLs`() {
         let version = "1.29.0"
         #expect(
@@ -40,7 +39,7 @@ struct `Prism Tests` {
         )
     }
 
-    @Test("Plugin URLs are correctly formed")
+    @Test
     func `plugin URLs`() {
         let version = "1.29.0"
         let lineNumbers = Prism.Plugin.lineNumbers
@@ -54,7 +53,7 @@ struct `Prism Tests` {
         )
     }
 
-    @Test("Prism.CodeBlock generates correct HTML")
+    @Test
     func `code block HTML`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
@@ -70,7 +69,7 @@ struct `Prism Tests` {
         #expect(html.contains("let greeting = \"Hello, World!\""))
     }
 
-    @Test("Prism.CodeBlock with title")
+    @Test
     func `code block with title`() throws {
         let codeBlock = Prism.CodeBlock(
             language: .swift,
@@ -85,7 +84,7 @@ struct `Prism Tests` {
         #expect(html.contains("Example.swift"))
     }
 
-    @Test("Command line code block")
+    @Test
     func `command line block`() throws {
         let codeBlock = Prism.CodeBlock.bash(
             user: "john",
@@ -104,7 +103,7 @@ struct `Prism Tests` {
         #expect(html.contains("npm install"))
     }
 
-    @Test("Inline code generation")
+    @Test
     func `inline code`() throws {
         let inline = Prism.InlineCode.swift {
             "let x = 42"
@@ -116,7 +115,7 @@ struct `Prism Tests` {
         #expect(html.contains("let x = 42"))
     }
 
-    @Test("Configuration presets")
+    @Test
     func `configuration presets`() {
         let minimal = Prism.Configuration.minimal
         #expect(minimal.languages.count == 3)
@@ -127,7 +126,7 @@ struct `Prism Tests` {
         #expect(swift.plugins.contains(where: { $0.name == "Line Numbers" }))
     }
 
-    @Test("Prism.Head includes all necessary resources")
+    @Test
     func `prism head resources`() throws {
         let config = Prism.Configuration(
             languages: [.swift, .javascript],
@@ -153,7 +152,7 @@ struct `Prism Tests` {
         #expect(html.contains("prism-copy-to-clipboard.min.js"))
     }
 
-    @Test("Swift enhancements are included")
+    @Test
     func `swift enhancements`() throws {
         let config = Prism.Configuration(languages: [.swift])
         let head = Prism.Head(configuration: config)
@@ -166,7 +165,7 @@ struct `Prism Tests` {
         #expect(html.contains("code-fold"))
     }
 
-    @Test("Custom theme creation")
+    @Test
     func `custom theme`() {
         var builder = Prism.ThemeBuilder()
         builder.setTokenStyle(
@@ -181,7 +180,7 @@ struct `Prism Tests` {
         #expect(theme.styles.contains(".token.keyword"))
     }
 
-    @Test("Language groups")
+    @Test
     func `language groups`() {
         #expect(Prism.Language.webLanguages.contains(.html))
         #expect(Prism.Language.webLanguages.contains(.css))
@@ -194,7 +193,7 @@ struct `Prism Tests` {
         #expect(Prism.Language.systemLanguages.contains(.go))
     }
 
-    @Test("Namespace convenience")
+    @Test
     func `namespace convenience`() throws {
         // Test that the type aliases work
         let config: Prism.Configuration = .minimal
@@ -212,7 +211,7 @@ struct `Prism Tests` {
         #expect(try String(inline).contains("language-javascript"))
     }
 
-    @Test("StringBuilder with multiline code")
+    @Test
     func `string builder multiline`() throws {
         let codeBlock = Prism.CodeBlock.swift {
             """
@@ -229,7 +228,7 @@ struct `Prism Tests` {
         #expect(html.contains("let age: Int"))
     }
 
-    @Test("StringBuilder with string interpolation")
+    @Test
     func `string builder interpolation`() throws {
         let version = 10
         let codeBlock = Prism.CodeBlock.javascript {
@@ -240,7 +239,7 @@ struct `Prism Tests` {
         #expect(html.contains("Version: 10"))
     }
 
-    @Test("Convenience methods with StringBuilder")
+    @Test
     func `convenience methods`() throws {
         // Test swift convenience
         let swiftBlock = Prism.CodeBlock.swift(
@@ -294,7 +293,7 @@ struct `Prism Tests` {
         #expect(jsonHtml.contains("swift-html-prism"))
     }
 
-    @Test("InlineCode with StringBuilder")
+    @Test
     func `inline code string builder`() throws {
         let swiftInline = Prism.InlineCode.swift {
             "let result = calculate(x: 10, y: 20)"
@@ -315,18 +314,12 @@ struct `Prism Tests` {
     }
 }
 
-@Test("SnapShot")
+@Test
 func `snap shot`() throws {
     let swiftInline = Prism.InlineCode.swift {
         "let result = calculate(x: 10, y: 20)"
     }
 
-    assertInlineSnapshot(
-        of: swiftInline,
-        as: .html
-    ) {
-        """
-        <code class="language-swift">let result = calculate(x: 10, y: 20)</code>
-        """
-    }
+    let rendered = try String(swiftInline)
+    #expect(rendered.contains(#"<code class="language-swift">let result = calculate(x: 10, y: 20)</code>"#))
 }

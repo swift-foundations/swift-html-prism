@@ -1,5 +1,4 @@
-// swift-tools-version:5.10
-// The swift-tools-version declares the minimum version of Swift required to build this package.
+// swift-tools-version: 6.3.3
 
 import PackageDescription
 
@@ -14,25 +13,25 @@ extension Target.Dependency {
 extension Target.Dependency {
     static var html: Self { .product(name: "HTML", package: "swift-html") }
     static var dependencies: Self { .product(name: "Dependencies", package: "swift-dependencies") }
-    static var pointFreeHtmlTestSupport: Self { .product(name: "PointFreeHTMLTestSupport", package: "pointfree-html") }
+    static var htmlRenderingCoreTestSupport: Self { .product(name: "HTML Rendering Core Test Support", package: "swift-html-render") }
 }
 
 let package = Package(
     name: "swift-html-prism",
     platforms: [
-        .iOS(.v17),
-        .macOS(.v14),
-        .tvOS(.v17),
-        .watchOS(.v10),
-        .macCatalyst(.v17)
+        .iOS(.v26),
+        .macOS(.v26),
+        .tvOS(.v26),
+        .watchOS(.v26),
+        .macCatalyst(.v26)
     ],
     products: [
         .library(name: .htmlPrism, targets: [.htmlPrism])
     ],
     dependencies: [
-        .package(url: "https://github.com/coenttb/swift-html", branch: "main"),
-        .package(url: "https://github.com/coenttb/pointfree-html", from: "2.0.0"),
-        .package(url: "https://github.com/pointfreeco/swift-dependencies", from: "1.9.2")
+        .package(url: "https://github.com/swift-foundations/swift-html.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
+        .package(url: "https://github.com/swift-foundations/swift-html-render.git", branch: "main")
     ],
     targets: [
         .target(
@@ -46,7 +45,7 @@ let package = Package(
             name: .htmlPrism.tests,
             dependencies: [
                 .htmlPrism,
-                .pointFreeHtmlTestSupport
+                .htmlRenderingCoreTestSupport
             ]
         )
     ]

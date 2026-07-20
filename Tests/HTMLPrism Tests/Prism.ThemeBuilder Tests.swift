@@ -16,7 +16,7 @@ extension Prism.ThemeBuilder {
     struct Tests {
         @Suite
         struct Unit {
-            @Test("build(name:) emits the dark half of a dual-mode token color inside a prefers-color-scheme: dark block")
+            @Test
             func buildEmitsDarkTokenColor() {
                 let color = HTMLColor(light: .hex("#111111"), dark: .hex("#EEEEEE"))
                 var builder = Prism.ThemeBuilder()
@@ -31,7 +31,7 @@ extension Prism.ThemeBuilder {
 
         @Suite
         struct `Edge Case` {
-            @Test("a token style with no color contributes nothing to the dark-mode block")
+            @Test
             func colorlessTokenStyleContributesNoDarkRule() {
                 var builder = Prism.ThemeBuilder()
                 builder.setTokenStyle(.comment, style: Prism.TokenStyle(fontStyle: .italic))
@@ -41,7 +41,7 @@ extension Prism.ThemeBuilder {
                 #expect(!theme.styles.contains("@media (prefers-color-scheme: dark)"))
             }
 
-            @Test("free-form dark-mode styles still render even without any dual-mode token color")
+            @Test
             func freeFormDarkStylesStillRenderAlone() {
                 var builder = Prism.ThemeBuilder()
                 builder.setDarkModeStyles(".token.extra { color: #ABCDEF; }")

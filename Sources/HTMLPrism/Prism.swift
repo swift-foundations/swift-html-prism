@@ -5,7 +5,6 @@
 //  Created by Coen ten Thije Boonkkamp on 01/09/2025.
 //
 
-import Builders
 import Dependencies
 import HTML
 
@@ -45,8 +44,8 @@ extension Prism {
 
 extension Prism.Configuration {
     public enum ThemeOption: Sendable {
-        case builtin(Theme)
-        case custom(CustomTheme)
+        case builtin(Prism.Theme)
+        case custom(Prism.CustomTheme)
         case none
     }
 }
@@ -54,7 +53,7 @@ extension Prism.Configuration {
 // MARK: - Head Component
 
 extension Prism {
-    public struct Head: HTML {
+    public struct Head: HTML.View {
         private let configuration: Configuration
 
         public init(configuration: Configuration? = nil) {
@@ -65,8 +64,8 @@ extension Prism {
 }
 
 extension Prism.Head {
-    @HTMLBuilder
-    public var body: some HTML {
+    @HTML.Builder
+    public var body: some HTML.View {
         // Theme CSS
         switch configuration.theme {
         case .builtin(let theme):
@@ -79,7 +78,7 @@ extension Prism.Head {
                 customTheme.styles
             }
         case .none:
-            HTMLText("<!-- No theme -->")
+            HTML.Text("<!-- No theme -->")
         }
 
         // Plugin CSS files
@@ -326,7 +325,7 @@ extension Prism.Head {
 // MARK: - CodeBlock Component
 
 extension Prism {
-    public struct CodeBlock: HTML {
+    public struct CodeBlock: HTML.View {
         private let language: Language?
         private let lineNumbers: Bool
         private let highlightLines: [Int]
@@ -356,12 +355,12 @@ extension Prism {
 }
 
 extension Prism.CodeBlock {
-    @HTMLBuilder
-    public var body: some HTML {
+    @HTML.Builder
+    public var body: some HTML.View {
         if let title = title {
             div {
                 div {
-                    HTMLText(title)
+                    HTML.Text(title)
                 }
                 .class("code-block-title")
                 codeBlockContent
@@ -372,14 +371,14 @@ extension Prism.CodeBlock {
         }
     }
 
-    @HTMLBuilder
-    private var codeBlockContent: some HTML {
+    @HTML.Builder
+    private var codeBlockContent: some HTML.View {
         let baseClass: Class? = lineNumbers ? "line-numbers" : nil
         let attrs = buildDataAttributes()
 
         pre {
             code {
-                HTMLText(codeContent)
+                HTML.Text(codeContent)
             }
             .class(.init(language?.className ?? "language-none"))
         }
@@ -391,7 +390,7 @@ extension Prism.CodeBlock {
         var attrs: [String] = []
 
         if !highlightLines.isEmpty {
-            let lines = highlightLines.map(String.init).joined(separator: ",")
+            let lines = highlightLines.map { String($0) }.joined(separator: ",") as String
             attrs.append("data-line=\"\(lines)\"")
         }
 
@@ -407,7 +406,7 @@ extension Prism.CodeBlock {
                 attrs.append("data-host=\"\(host)\"")
             }
             if !cmdOptions.outputLines.isEmpty {
-                let output = cmdOptions.outputLines.map(String.init).joined(separator: ",")
+                let output = cmdOptions.outputLines.map { String($0) }.joined(separator: ",") as String
                 attrs.append("data-output=\"\(output)\"")
             }
             if let prompt = cmdOptions.prompt {
@@ -441,7 +440,7 @@ extension Prism.CodeBlock {
 // MARK: - InlineCode Component
 
 extension Prism {
-    public struct InlineCode: HTML {
+    public struct InlineCode: HTML.View {
         private let language: Prism.Language?
         private let codeContent: String
 
@@ -456,10 +455,10 @@ extension Prism {
 }
 
 extension Prism.InlineCode {
-    @HTMLBuilder
-    public var body: some HTML {
+    @HTML.Builder
+    public var body: some HTML.View {
         code {
-            HTMLText(codeContent)
+            HTML.Text(codeContent)
         }
         .class("\(language?.className ?? "language-none")")
     }
@@ -647,13 +646,13 @@ extension Prism.InlineCode {
 
 // MARK: - Dependency Support
 
-extension Prism.Configuration: DependencyKey {
+extension Prism.Configuration: Dependency.Key {
     public static var liveValue: Self { .standard }
     public static var testValue: Self { .minimal }
     public static var previewValue: Self { .standard }
 }
 
-extension DependencyValues {
+extension Dependency.Values {
     public var prismConfiguration: Prism.Configuration {
         get { self[Prism.Configuration.self] }
         set { self[Prism.Configuration.self] = newValue }
