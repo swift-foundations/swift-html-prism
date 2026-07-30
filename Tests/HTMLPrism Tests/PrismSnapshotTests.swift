@@ -264,7 +264,9 @@ struct Snapshots {
         let rendered = try String(htmlBlock)
         #expect(rendered.contains(#"<code class="language-html">"#))
         // Embedded markup must be escaped, not emitted as live tags.
-        #expect(rendered.contains("&lt;!DOCTYPE html&gt;") || rendered.contains("&lt;!DOCTYPE html>"))
+        #expect(
+            rendered.contains("&lt;!DOCTYPE html&gt;") || rendered.contains("&lt;!DOCTYPE html>")
+        )
         #expect(!rendered.contains("<h1>Hello, World!</h1>"))
     }
 

@@ -321,5 +321,9 @@ func `snap shot`() throws {
     }
 
     let rendered = try String(swiftInline)
-    #expect(rendered.contains(#"<code class="language-swift">let result = calculate(x: 10, y: 20)</code>"#))
+    #expect(
+        rendered.contains(
+            #"<code class="language-swift">let result = calculate(x: 10, y: 20)</code>"#
+        )
+    )
 }

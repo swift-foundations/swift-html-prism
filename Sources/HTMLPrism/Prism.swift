@@ -406,7 +406,8 @@ extension Prism.CodeBlock {
                 attrs.append("data-host=\"\(host)\"")
             }
             if !cmdOptions.outputLines.isEmpty {
-                let output = cmdOptions.outputLines.map { String($0) }.joined(separator: ",") as String
+                let output =
+                    cmdOptions.outputLines.map { String($0) }.joined(separator: ",") as String
                 attrs.append("data-output=\"\(output)\"")
             }
             if let prompt = cmdOptions.prompt {

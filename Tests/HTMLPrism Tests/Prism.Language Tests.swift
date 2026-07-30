@@ -49,7 +49,9 @@ extension Prism.Language {
         struct `Edge Case` {
             @Test
             func markupFamilyAliasesResolveToMarkupComponent() {
-                let markupAliases: [Prism.Language] = [.html, .xml, .svg, .mathml, .ssml, .atom, .rss]
+                let markupAliases: [Prism.Language] = [
+                    .html, .xml, .svg, .mathml, .ssml, .atom, .rss,
+                ]
                 for alias in markupAliases {
                     #expect(alias.cdnComponentPath == Prism.Language.markup.cdnComponentPath)
                 }
