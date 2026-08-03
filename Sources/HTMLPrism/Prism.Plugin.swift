@@ -40,7 +40,7 @@ extension Prism.Plugin {
     }
 
     public func cssURL(cdnVersion: String) -> String? {
-        guard let cssFileName = cssFileName else { return nil }
+        guard let cssFileName else { return nil }
         return
             "https://cdnjs.cloudflare.com/ajax/libs/prism/\(cdnVersion)/plugins/\(name.lowercased().replacing(" ", with: "-"))/\(cssFileName)"
     }

@@ -73,10 +73,12 @@ extension Prism.Head {
                 href: .init(theme.cssURL(cdnVersion: configuration.cdnVersion)),
                 rel: "stylesheet"
             )
+
         case .custom(let customTheme):
             Style {
                 customTheme.styles
             }
+
         case .none:
             HTML.Text("<!-- No theme -->")
         }
@@ -357,7 +359,7 @@ extension Prism {
 extension Prism.CodeBlock {
     @HTML.Builder
     public var body: some HTML.View {
-        if let title = title {
+        if let title {
             div {
                 div {
                     HTML.Text(title)
