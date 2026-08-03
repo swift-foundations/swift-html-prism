@@ -286,6 +286,7 @@ struct `README Verification` {
         switch config.theme {
         case .custom(let theme):
             #expect(theme.name == "my-theme")
+
         default:
             Issue.record("Expected custom theme")
         }

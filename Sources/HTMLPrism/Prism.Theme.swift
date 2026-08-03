@@ -76,19 +76,19 @@ extension Prism.TokenStyle {
     public var cssString: String {
         var styles: [String] = []
 
-        if let color = color {
+        if let color {
             styles.append("color: \(color.light.description)")
         }
-        if let backgroundColor = backgroundColor {
+        if let backgroundColor {
             styles.append("background-color: \(backgroundColor.description)")
         }
-        if let fontWeight = fontWeight {
+        if let fontWeight {
             styles.append("font-weight: \(fontWeight)")
         }
-        if let fontStyle = fontStyle {
+        if let fontStyle {
             styles.append("font-style: \(fontStyle)")
         }
-        if let textDecoration = textDecoration {
+        if let textDecoration {
             styles.append("text-decoration: \(textDecoration)")
         }
 
