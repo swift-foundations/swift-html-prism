@@ -1,4 +1,4 @@
-// swift-tools-version: 6.3.3
+// swift-tools-version: 6.4
 
 import PackageDescription
 
@@ -13,41 +13,46 @@ extension Target.Dependency {
 extension Target.Dependency {
     static var html: Self { .product(name: "HTML", package: "swift-html") }
     static var dependencies: Self { .product(name: "Dependencies", package: "swift-dependencies") }
-    static var htmlRenderingCoreTestSupport: Self { .product(name: "HTML Rendering Core Test Support", package: "swift-html-render") }
+    static var htmlRenderingCoreTestSupport: Self {
+        .product(name: "HTML Rendering Core Test Support", package: "swift-html-render")
+    }
 }
 
 let package = Package(
     name: "swift-html-prism",
     platforms: [
-        .iOS(.v26),
-        .macOS(.v26),
-        .tvOS(.v26),
-        .watchOS(.v26),
-        .macCatalyst(.v26)
+        .iOS(.v27),
+        .macOS(.v27),
+        .tvOS(.v27),
+        .watchOS(.v27),
+        .macCatalyst(.v27),
     ],
     products: [
         .library(name: .htmlPrism, targets: [.htmlPrism])
     ],
     dependencies: [
         .package(url: "https://github.com/swift-foundations/swift-html.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-dependencies.git", branch: "main"),
-        .package(url: "https://github.com/swift-foundations/swift-html-render.git", branch: "main")
+        .package(
+            url: "https://github.com/swift-foundations/swift-dependencies.git",
+            branch: "main"
+        ),
+        .package(url: "https://github.com/swift-foundations/swift-html-render.git", branch: "main"),
     ],
     targets: [
         .target(
             name: .htmlPrism,
             dependencies: [
                 .html,
-                .dependencies
+                .dependencies,
             ]
         ),
         .testTarget(
             name: .htmlPrism.tests,
             dependencies: [
                 .htmlPrism,
-                .htmlRenderingCoreTestSupport
+                .htmlRenderingCoreTestSupport,
             ]
-        )
+        ),
     ]
 )
 
