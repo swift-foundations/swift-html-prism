@@ -75,7 +75,7 @@ extension Prism.Head {
             )
 
         case .custom(let customTheme):
-            Style {
+            HTML.Style.Element {
                 customTheme.styles
             }
 
@@ -94,7 +94,7 @@ extension Prism.Head {
         }
 
         // Additional styles
-        Style {
+        HTML.Style.Element {
             Self.defaultStyles
 
             if configuration.plugins.contains(where: { $0.name == "Line Highlight" }) {
@@ -375,7 +375,7 @@ extension Prism.CodeBlock {
 
     @HTML.Builder
     private var codeBlockContent: some HTML.View {
-        let baseClass: Class? = lineNumbers ? "line-numbers" : nil
+        let baseClass: HTML.Class.Attribute? = lineNumbers ? "line-numbers" : nil
         let attrs = buildDataAttributes()
 
         pre {
