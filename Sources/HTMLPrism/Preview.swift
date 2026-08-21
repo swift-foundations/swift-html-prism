@@ -1,10 +1,3 @@
-//
-//  File.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-
 #if canImport(SwiftUI)
     import SwiftUI
     import HTML

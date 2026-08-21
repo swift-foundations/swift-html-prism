@@ -1,12 +1,3 @@
-//
-//  Prism.ThemeBuilder Tests.swift
-//  swift-html-prism
-//
-//  Regression coverage for F-001 (fable-448): TokenStyle.cssString discarded the dark half
-//  of a dual-mode HTMLColor, so `Prism.ThemeBuilder.build(name:)` never emitted the dark
-//  variant of a custom theme's token colors.
-//
-
 import HTML
 import HTMLPrism
 import Testing

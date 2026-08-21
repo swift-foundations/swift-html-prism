@@ -1,13 +1,6 @@
-//
-//  Prism.Language.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-
 extension Prism {
     public enum Language: String, Sendable, CaseIterable {
-        // Core languages
+
         case markup = "markup"
         case html = "html"
         case xml = "xml"
@@ -21,7 +14,6 @@ extension Prism {
         case javascript = "javascript"
         case js = "js"
 
-        // A
         case abap = "abap"
         case abnf = "abnf"
         case actionscript = "actionscript"
@@ -56,7 +48,6 @@ extension Prism {
         case awk = "awk"
         case gawk = "gawk"
 
-        // B
         case bash = "bash"
         case sh = "sh"
         case shell = "shell"
@@ -77,7 +68,6 @@ extension Prism {
         case bsl = "bsl"
         case oscript = "oscript"
 
-        // C
         case c = "c"
         case csharp = "csharp"
         case cs = "cs"
@@ -108,7 +98,6 @@ extension Prism {
         case cue = "cue"
         case cypher = "cypher"
 
-        // D
         case d = "d"
         case dart = "dart"
         case dataweave = "dataweave"
@@ -124,7 +113,6 @@ extension Prism {
         case dot = "dot"
         case gv = "gv"
 
-        // E
         case ebnf = "ebnf"
         case editorconfig = "editorconfig"
         case eiffel = "eiffel"
@@ -139,7 +127,6 @@ extension Prism {
         case xlsx = "xlsx"
         case xls = "xls"
 
-        // F
         case fsharp = "fsharp"
         case factor = "factor"
         case `false` = "false"
@@ -148,7 +135,6 @@ extension Prism {
         case fortran = "fortran"
         case ftl = "ftl"
 
-        // G
         case gml = "gml"
         case gap = "gap"
         case gcode = "gcode"
@@ -170,7 +156,6 @@ extension Prism {
         case graphql = "graphql"
         case groovy = "groovy"
 
-        // H
         case haml = "haml"
         case handlebars = "handlebars"
         case hbs = "hbs"
@@ -186,7 +171,6 @@ extension Prism {
         case hsts = "hsts"
         case hydra = "hydra"
 
-        // I
         case ichigojam = "ichigojam"
         case icon = "icon"
         case icuMessageFormat = "icu-message-format"
@@ -200,7 +184,6 @@ extension Prism {
         case ini = "ini"
         case io = "io"
 
-        // J
         case j = "j"
         case java = "java"
         case javadoc = "javadoc"
@@ -220,7 +203,6 @@ extension Prism {
         case jsx = "jsx"
         case julia = "julia"
 
-        // K
         case keepalived = "keepalived"
         case keyman = "keyman"
         case kotlin = "kotlin"
@@ -230,7 +212,6 @@ extension Prism {
         case kum = "kum"
         case kusto = "kusto"
 
-        // L
         case latex = "latex"
         case tex = "tex"
         case context = "context"
@@ -249,7 +230,6 @@ extension Prism {
         case lolcode = "lolcode"
         case lua = "lua"
 
-        // M
         case magma = "magma"
         case makefile = "makefile"
         case markdown = "markdown"
@@ -267,7 +247,6 @@ extension Prism {
         case moonscript = "moonscript"
         case moon = "moon"
 
-        // N - Z (continuing with same pattern...)
         case n1ql = "n1ql"
         case n4js = "n4js"
         case n4jsd = "n4jsd"
@@ -436,15 +415,7 @@ extension Prism {
 }
 
 extension Prism.Language {
-    /// The identifier of the CDN component file that actually defines this language's grammar.
-    ///
-    /// A number of `Language` cases are aliases Prism recognizes at runtime (e.g. `.js`,
-    /// `.html`) but does not ship as their own CDN file — only the canonical language (e.g.
-    /// `.javascript`, `.markup`) has a `prism-<id>.min.js` component. Alias cases resolve to
-    /// their canonical language's identifier here so ``cdnComponentPath`` never points at a
-    /// nonexistent file; every other case resolves to its own `rawValue`.
-    ///
-    /// Source of truth: Prism's own `components.json` `alias` field (fetched 2026-07-19).
+
     public var componentIdentifier: String {
         switch self {
         case .html, .xml, .svg, .mathml, .ssml, .atom, .rss:
@@ -689,7 +660,6 @@ extension Prism.Language {
     }
 }
 
-// Language groups
 extension Prism.Language {
     public static let webLanguages: [Self] = [
         .html, .css, .javascript, .typescript, .jsx, .tsx,

@@ -1,10 +1,3 @@
-//
-//  Prism.Plugin.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-
 extension Prism {
     public struct Plugin: Sendable {
         public let name: String
@@ -46,7 +39,6 @@ extension Prism.Plugin {
     }
 }
 
-// Common PrismJS plugins
 extension Prism.Plugin {
     public static let lineHighlight = Self(
         name: "Line Highlight",

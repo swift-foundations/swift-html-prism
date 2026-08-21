@@ -1,13 +1,3 @@
-//
-//  Prism.Language Tests.swift
-//  swift-html-prism
-//
-//  Regression coverage for F-002 (fable-448): alias language cases used to generate
-//  nonexistent CDN component URLs because `cdnComponentPath` blindly interpolated
-//  `rawValue`, even for cases that are Prism-recognized aliases with no CDN file of
-//  their own (e.g. `.js`, `.html`).
-//
-
 import HTMLPrism
 import Testing
 
@@ -38,8 +28,7 @@ extension Prism.Language {
 
             @Test
             func classNameStaysCaseSpecific() {
-                // Prism resolves alias class names (e.g. "language-js") to the canonical
-                // grammar at runtime; only the CDN component *file* needs remapping.
+
                 #expect(Prism.Language.js.className == "language-js")
                 #expect(Prism.Language.html.className == "language-html")
             }

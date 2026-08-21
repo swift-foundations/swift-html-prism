@@ -1,10 +1,3 @@
-//
-//  Prism.Theme.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-
 import HTML
 
 extension Prism {
@@ -37,7 +30,7 @@ extension Prism.Theme {
 }
 
 extension Prism {
-    // Custom theme support
+
     public struct CustomTheme: Sendable {
         public let name: String
         public let styles: String
@@ -48,7 +41,6 @@ extension Prism {
         }
     }
 
-    // Token styling
     public struct TokenStyle: Sendable {
         public let color: DarkModeColor?
         public let backgroundColor: BackgroundColor?
@@ -95,10 +87,6 @@ extension Prism.TokenStyle {
         return styles.joined(separator: "; ")
     }
 
-    /// The dark-mode-only declarations for this style, or `nil` when this style specifies no
-    /// dark-mode-relevant properties. `color` is the only property backed by `DarkModeColor`
-    /// (a light/dark pair); the other properties are mode-independent and already covered by
-    /// ``cssString``.
     public var darkCSSString: String? {
         guard let color else { return nil }
         return "color: \(color.dark.description)"
@@ -106,7 +94,7 @@ extension Prism.TokenStyle {
 }
 
 extension Prism {
-    // Token types for custom themes
+
     public enum TokenType: String, Sendable, CaseIterable {
         case comment
         case prolog
@@ -143,7 +131,6 @@ extension Prism {
         case className = "class-name"
     }
 
-    // Custom theme builder
     public struct ThemeBuilder: Sendable {
         private var tokenStyles: [TokenType: TokenStyle] = [:]
         private var baseStyles: String = ""
@@ -175,14 +162,11 @@ extension Prism.ThemeBuilder {
     public func build(name: String) -> Prism.CustomTheme {
         var css = baseStyles + "\n"
 
-        // Sort token types by raw value for deterministic output
         let sortedTokenStyles = tokenStyles.sorted { $0.key.rawValue < $1.key.rawValue }
         for (tokenType, style) in sortedTokenStyles {
             css += "\(tokenType.selector) { \(style.cssString) }\n"
         }
 
-        // Dark half of any dual-mode (DarkModeColor) token style, plus any free-form dark-mode
-        // styles, share the same `prefers-color-scheme: dark` block.
         let darkTokenRules = sortedTokenStyles.compactMap { tokenType, style in
             style.darkCSSString.map { "\(tokenType.selector) { \($0) }" }
         }
@@ -201,12 +185,10 @@ extension Prism.ThemeBuilder {
     }
 }
 
-// Pre-built custom themes
 extension Prism.CustomTheme {
     public static let swift: Self = {
         var builder = Prism.ThemeBuilder()
 
-        // Swift/Xcode-like theme
         builder.setTokenStyle(
             .keyword,
             style: Prism.TokenStyle(

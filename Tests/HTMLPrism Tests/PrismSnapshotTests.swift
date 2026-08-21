@@ -1,13 +1,3 @@
-//
-//  PrismSnapshotTests.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-//  Migrated from PointFreeHTMLTestSupport inline snapshots to
-//  institute-native rendered-string assertions (try String(_:) + #expect).
-//
-
 import HTML
 import HTMLPrism
 import Testing
@@ -185,13 +175,13 @@ struct Snapshots {
     @Test
     func `prism head swift snapshot`() throws {
         let rendered = try String(Prism.Head.swift)
-        // Custom Swift theme styles, not a CDN theme.
+
         #expect(rendered.contains(".token.keyword { color: #AD3DA4 }"))
         #expect(rendered.contains(".token.string { color: #D22E1B }"))
         #expect(!rendered.contains("themes/prism.min.css"))
         #expect(rendered.contains("components/prism-swift.min.js"))
         #expect(rendered.contains("plugins/copy-to-clipboard/prism-copy-to-clipboard.min.js"))
-        // Swift-specific highlighting enhancements.
+
         #expect(rendered.contains("Prism.languages.swift"))
         #expect(rendered.contains("placeholder"))
     }
@@ -263,7 +253,7 @@ struct Snapshots {
 
         let rendered = try String(htmlBlock)
         #expect(rendered.contains(#"<code class="language-html">"#))
-        // Embedded markup must be escaped, not emitted as live tags.
+
         #expect(
             rendered.contains("&lt;!DOCTYPE html&gt;") || rendered.contains("&lt;!DOCTYPE html>")
         )

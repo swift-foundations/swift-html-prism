@@ -1,14 +1,6 @@
-//
-//  exports.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-
 @_exported import Dependencies
 @_exported import HTML
 
-// Type aliases for convenience
 public typealias PrismConfiguration = Prism.Configuration
 public typealias PrismHead = Prism.Head
 public typealias PrismCodeBlock = Prism.CodeBlock

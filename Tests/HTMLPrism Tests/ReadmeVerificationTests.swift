@@ -1,10 +1,3 @@
-//
-//  ReadmeVerificationTests.swift
-//  swift-html-prism
-//
-//  Created to verify all README code examples compile and work correctly
-//
-
 import Dependencies
 import HTML
 import HTMLPrism
@@ -15,10 +8,9 @@ struct `README Verification` {
 
     @Test
     func `quick start basic usage`() throws {
-        // Add PrismJS resources to your HTML head
+
         let head = Prism.Head.swift
 
-        // Create a syntax-highlighted code block
         let codeBlock = Prism.CodeBlock.swift(
             lineNumbers: true
         ) {
@@ -39,16 +31,13 @@ struct `README Verification` {
 
     @Test
     func `pre configured setups`() throws {
-        // Minimal setup with basic web languages
+
         let minimal = Prism.Head.minimal
 
-        // Standard setup with common languages and plugins
         let standard = Prism.Head.standard
 
-        // Full setup with many languages and plugins
         let full = Prism.Head.full
 
-        // Swift-optimized setup
         let swift = Prism.Head.swift
 
         #expect(try String(minimal).contains("prism"))
@@ -146,7 +135,6 @@ struct `README Verification` {
     func `inline code`() throws {
         let inlineCode = Prism.InlineCode.swift { "print()" }
 
-        // Simulate usage in p tag
         let html = try String(inlineCode)
         #expect(html.contains("language-swift"))
         #expect(html.contains("print()"))
@@ -190,19 +178,17 @@ struct `README Verification` {
 
     @Test
     func `language access`() {
-        // Web languages
+
         _ = Prism.Language.html
         _ = Prism.Language.css
         _ = Prism.Language.javascript
         _ = Prism.Language.typescript
 
-        // System languages
         _ = Prism.Language.rust
         _ = Prism.Language.go
         _ = Prism.Language.zig
         _ = Prism.Language.c
 
-        // Mobile languages
         _ = Prism.Language.swift
         _ = Prism.Language.kotlin
         _ = Prism.Language.objectivec
@@ -297,7 +283,7 @@ struct `README Verification` {
         withDependencies {
             $0.prismConfiguration = .swift
         } operation: {
-            // Prism.Head() will use the Swift configuration
+
             let head = Prism.Head()
 
             let html = try? String(head)

@@ -1,16 +1,7 @@
-//
-//  Prism.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-
 import Dependencies
 import HTML
 
 public enum Prism {}
-
-// MARK: - Configuration
 
 extension Prism {
     public struct Configuration: Sendable {
@@ -50,8 +41,6 @@ extension Prism.Configuration {
     }
 }
 
-// MARK: - Head Component
-
 extension Prism {
     public struct Head: HTML.View {
         private let configuration: Configuration
@@ -66,7 +55,7 @@ extension Prism {
 extension Prism.Head {
     @HTML.Builder
     public var body: some HTML.View {
-        // Theme CSS
+
         switch configuration.theme {
         case .builtin(let theme):
             link(
@@ -83,7 +72,6 @@ extension Prism.Head {
             HTML.Text("<!-- No theme -->")
         }
 
-        // Plugin CSS files
         HTMLForEach(configuration.plugins) { plugin in
             if let cssURL = plugin.cssURL(cdnVersion: configuration.cdnVersion) {
                 link(
@@ -93,7 +81,6 @@ extension Prism.Head {
             }
         }
 
-        // Additional styles
         HTML.Style.Element {
             Self.defaultStyles
 
@@ -114,7 +101,6 @@ extension Prism.Head {
             }
         }
 
-        // Core Prism script
         script(
             src: .init(
                 "https://cdnjs.cloudflare.com/ajax/libs/prism/\(configuration.cdnVersion)/prism.min.js"
@@ -122,7 +108,6 @@ extension Prism.Head {
             defer: true
         )()
 
-        // Plugin scripts
         HTMLForEach(configuration.plugins) { plugin in
             script(
                 src: .init(plugin.scriptURL(cdnVersion: configuration.cdnVersion)),
@@ -130,7 +115,6 @@ extension Prism.Head {
             )()
         }
 
-        // Language scripts
         HTMLForEach(configuration.languages) { language in
             script(
                 src: .init(
@@ -140,7 +124,6 @@ extension Prism.Head {
             )()
         }
 
-        // Custom scripts including Swift enhancements
         script {
             buildInitializationScript()
         }
@@ -324,8 +307,6 @@ extension Prism.Head {
     }
 }
 
-// MARK: - CodeBlock Component
-
 extension Prism {
     public struct CodeBlock: HTML.View {
         private let language: Language?
@@ -440,8 +421,6 @@ extension Prism.CodeBlock {
     }
 }
 
-// MARK: - InlineCode Component
-
 extension Prism {
     public struct InlineCode: HTML.View {
         private let language: Prism.Language?
@@ -466,8 +445,6 @@ extension Prism.InlineCode {
         .class("\(language?.className ?? "language-none")")
     }
 }
-
-// MARK: - Convenience Extensions
 
 extension Prism.Head {
     public static var minimal: Self {
@@ -646,8 +623,6 @@ extension Prism.InlineCode {
         )
     }
 }
-
-// MARK: - Dependency Support
 
 extension Prism.Configuration: Dependency.Key {
     public static var liveValue: Self { .standard }

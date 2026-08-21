@@ -1,10 +1,3 @@
-//
-//  PrismTests.swift
-//  swift-html-prism
-//
-//  Created by Coen ten Thije Boonkkamp on 01/09/2025.
-//
-
 import HTML
 import HTMLPrism
 import Testing
@@ -119,7 +112,6 @@ struct `Prism Tests` {
     func `configuration presets`() {
         let minimal = Prism.Configuration.minimal
         #expect(minimal.languages.count == 3)
-        //        #expect(minimal.plugins.isEmpty)
 
         let swift = Prism.Configuration.swift
         #expect(swift.languages.contains(.swift))
@@ -137,17 +129,13 @@ struct `Prism Tests` {
         let head = Prism.Head(configuration: config)
         let html = try String(head)
 
-        // Check for theme CSS
         #expect(html.contains("prism-okaidia.min.css"))
 
-        // Check for core script
         #expect(html.contains("prism.min.js"))
 
-        // Check for language scripts
         #expect(html.contains("prism-swift.min.js"))
         #expect(html.contains("prism-javascript.min.js"))
 
-        // Check for plugin scripts
         #expect(html.contains("prism-line-numbers.min.js"))
         #expect(html.contains("prism-copy-to-clipboard.min.js"))
     }
@@ -158,7 +146,6 @@ struct `Prism Tests` {
         let head = Prism.Head(configuration: config)
         let html = try String(head)
 
-        // Check for Swift-specific enhancements
         #expect(html.contains("Prism.languages.swift"))
         #expect(html.contains("TODO:"))
         #expect(html.contains("placeholder"))
@@ -195,7 +182,7 @@ struct `Prism Tests` {
 
     @Test
     func `namespace convenience`() throws {
-        // Test that the type aliases work
+
         let config: Prism.Configuration = .minimal
         let head = Prism.Head(configuration: config)
         let block = Prism.CodeBlock.swift {
@@ -241,7 +228,7 @@ struct `Prism Tests` {
 
     @Test
     func `convenience methods`() throws {
-        // Test swift convenience
+
         let swiftBlock = Prism.CodeBlock.swift(
             lineNumbers: true,
             highlightLines: [2]
@@ -258,7 +245,6 @@ struct `Prism Tests` {
         #expect(swiftHtml.contains("line-numbers"))
         #expect(swiftHtml.contains("func greet"))
 
-        // Test bash convenience
         let bashBlock = Prism.CodeBlock.bash(
             user: "admin",
             host: "server"
@@ -276,7 +262,6 @@ struct `Prism Tests` {
         #expect(bashHtml.contains("language-bash"))
         #expect(bashHtml.contains("cd /var/www"))
 
-        // Test json convenience
         let jsonBlock = Prism.CodeBlock.json(lineNumbers: true) {
             """
             {
