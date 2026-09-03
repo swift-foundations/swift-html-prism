@@ -2,22 +2,6 @@
 
 import PackageDescription
 
-extension String {
-    static let htmlPrism: Self = "HTMLPrism"
-}
-
-extension Target.Dependency {
-    static var htmlPrism: Self { .target(name: .htmlPrism) }
-}
-
-extension Target.Dependency {
-    static var html: Self { .product(name: "HTML", package: "swift-html") }
-    static var dependencies: Self { .product(name: "Dependencies", package: "swift-dependencies") }
-    static var htmlRenderingCoreTestSupport: Self {
-        .product(name: "HTML Rendering Core Test Support", package: "swift-html-render")
-    }
-}
-
 let package = Package(
     name: "swift-html-prism",
     platforms: [
@@ -28,7 +12,7 @@ let package = Package(
         .macCatalyst(.v27),
     ],
     products: [
-        .library(name: .htmlPrism, targets: [.htmlPrism])
+        .library(name: "HTMLPrism", targets: ["HTMLPrism"])
     ],
     dependencies: [
         .package(url: "https://github.com/swift-compositions/swift-html.git", branch: "main"),
@@ -40,22 +24,19 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: .htmlPrism,
+            name: "HTMLPrism",
             dependencies: [
-                .html,
-                .dependencies,
+                .product(name: "HTML", package: "swift-html"),
+                .product(name: "Dependencies", package: "swift-dependencies"),
             ]
         ),
         .testTarget(
-            name: .htmlPrism.tests,
+            name: "HTMLPrism Tests",
             dependencies: [
-                .htmlPrism,
-                .htmlRenderingCoreTestSupport,
+                .target(name: "HTMLPrism"),
+                .product(name: "HTML Rendering Core Test Support", package: "swift-html-render"),
             ]
         ),
     ]
 )
 
-extension String {
-    var tests: Self { "\(self) Tests" }
-}
